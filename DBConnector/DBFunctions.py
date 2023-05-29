@@ -20,22 +20,17 @@ class DBConnector:
             self.cursor.close()
         if self.conn is not None:
             self.conn.close()
-
     
     def execute_query(self, sql, values=None):
-        self.cursor.execute(sql, values) if values else self.cursor.execute(sql)
-        self.conn.commit()
-    
+        try:
+            self.cursor.execute(sql, values) if values else self.cursor.execute(sql)
+            self.conn.commit()
+        except Exception as e:
+            if "Cannot insert duplicate key in object" in str(e):
+                print("Duplicate key probably ID already inserted")
+            else:
+                raise e
 
-    def execute_read_query(self, sql, values=None):
-        self.cursor.execute(sql, values) if values else self.cursor.execute(sql)
-        rows = self.cursor.fetchall()
-        return rows 
-
-
-connector = DBConnector(server='DESKTOP-REV4M37', database='BLING_System')
-
-connector.connect()
 
 # # Example of executing an INSERT query
 # sql = "INSERT INTO YourTableName (column1, column2) VALUES (?, ?)"
