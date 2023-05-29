@@ -1,5 +1,5 @@
 class Trainee:
-    def __init__(self):
+    def __init__(self, traineeID, traineeFullName, bankAccount):
         self.traineeID = 0
         self.traineeFullName = ""
         self.bankAccount = ""

@@ -1,7 +1,8 @@
 import pyodbc
 from datetime import date, time
+import socket
 
-connection = pyodbc.connect('Driver={SQL Server};Server=DESKTOP-REV4M37;Database=BLING_system;Trusted_Connection=yes;')
+connection = pyodbc.connect(f'Driver={{SQL Server}};Server={socket.gethostname()};Database=BLING_system;Trusted_Connection=yes;')
 
 cursor = connection.cursor()
 
