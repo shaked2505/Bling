@@ -11,6 +11,7 @@ class Trainer:
         self.hourlyWage = hourlyWage
         self.managerID = managerID
 
+
     def shiftAssignment(self, Training):
         pass
     def changeShift(self, Training):
