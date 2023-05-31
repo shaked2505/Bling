@@ -1,12 +1,33 @@
-class BrandedMerchendise:
-    def __init__(self):
-        self.productID = 0  # int
-        self.price = 0.0  # float
-        self.unitInStock = 0  # int
-        self.productName = ""  # str
-        self.productDescription = ""  # str
-        self.managerID = None  # SystemManager (assuming SystemManager is a class)
-        self.paymentID = None  # Payment (assuming Payment is a class)
+class BrandedMerchandise:
+    def __init__(self, connector,productID, price, unitInStock, productName, productDescription, managerID, paymentID ):
+        self.productID = productID  
+        self.price = price  
+        self.unitInStock = unitInStock  
+        self.productName = productName  
+        self.productDescription = productDescription 
+        self.managerID = managerID  
+        self.paymentID = paymentID  
+        self.connector = connector
+
+
+
+        sql= "INSERT INTO BrandedMerchandise ( productID, price, unitInStock, productName, productDescription,managerID,paymentID ) VALUES (?, ?, ?, ?, ?, ?, ?)"
+        values = (self.productID, self.price, self.unitInStock, self.productName, self.productDescription, self.managerID, self.paymentID )
+        self.connector.execute_query(sql, values)
+
+    def set_productID(self, productID):
+        sql = "UPDATE BrandedMerchandise SET productID=? WHERE productID=?;"
+        values = (productID, self.productID)
+        self.connector.execute_query(sql, values)
+        self.productID = productID
+        self.connector.execute_query(sql, values)
+
+    def delete(self):
+        sql = "DELETE FROM BrandedMerchandise WHERE productID=?;"
+        self.connector.execute_query(sql, self.productID)
+        self.connector.execute_query(sql, self.productID)
+
+
 
     def getPrice(self):
         pass
