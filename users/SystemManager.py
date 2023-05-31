@@ -1,24 +1,43 @@
-# class SystemManager:
-#     def __init__(self):
-#         self.managerID = 0
-#         self.managerFullName = "" 
-#         self.bankAccount = ""
-#         self.email = ""
-#         self.phoneNumber = ""
-#         self.loginDetails = ""
+class SystemManager:
+    def __init__(self, connector, managerID, managerFullName, bankAccount, email, phoneNumber, loginDetails):
+        self.connector = connector 
+        self.managerID = managerID
+        self.managerFullName = managerFullName
+        self.bankAccount = bankAccount
+        self.email = email
+        self.phoneNumber = phoneNumber
+        self.email= email
+        self.phoneNumber = phoneNumber
+        self.loginDetails = loginDetails
 
-#     def getProducts(self, BrandedMerchandise):
-#         pass
+        sql = "INSERT INTO SystemManager (managerID, managerFullName, bankAccount, email, phoneNumber, loginDetails ) VALUES (?, ?, ?, ?, ?, ?)"
+        values = (self.managerID, self.managerFullName, self.bankAccount, self.email, self.phoneNumber, self.loginDetails)
+        self.connector.execute_query(sql, values)
 
-#     def setProducts(self, BrandedMerchandise):
-#         pass
+    def set_managerID(self, managerID):
+        sql = "UPDATE SystemManager SET managerID=? WHERE managerID=?;"
+        values = (managerID, self.managerID)
+        self.connector.execute_query(sql, values)
+        self.managerID = managerID
 
-#     def addTrainer(self, Trainer):
-#         pass
+    def delete(self):
+        sql = "DELETE FROM SystemManager WHERE managerID=?;"
+        self.connector.execute_query(sql, self.managerID)
 
-#     def removeTrainer(self, Trainer):
-#         pass
+    def getProducts(self, BrandedMerchandise):
+        pass
 
-#     def smPosting(self, loginDetails):
-#         pass
+    def setProducts(self, BrandedMerchandise):
+        pass
+
+    def addTrainer(self, Trainer):
+        pass
+
+    def removeTrainer(self, Trainer):
+        pass
+
+    def smPosting(self, loginDetails):
+        pass
+
+
 
