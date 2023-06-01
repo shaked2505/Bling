@@ -4,6 +4,7 @@ from DBConnector.DBFunctions import DBConnector
 import socket
 from datetime import date
 import time
+from incomes.Payment import Payment
 
 # connector = DBConnector(server=socket.gethostname(), database='BLING_System')
 # connector.connect()
@@ -23,13 +24,23 @@ import time
 # BrandedMerchandise = BrandedMerchandise(connector, 12134, 23.0 , 5544 , 'Shirt', 'beautiful' ,1111, 2000)
 # print("create")
 # time.sleep(30)
-
-
 # BrandedMerchandise.set_productID(12134)
 # print("set")
 # time.sleep(30)
 # BrandedMerchandise.delete()
 # print("deleted")
-
-
 # connector.disconnect()
+
+connector = DBConnector(server=socket.gethostname(), database='BLING_System')
+connector.connect()
+Payment = Payment(connector, 2006, 23.0 , 'Approved', 1004 ,80, 300)
+print("create")
+time.sleep(10)
+Payment.set_paymentID(2008)
+print("set")
+time.sleep(10)
+Payment.delete()
+print("deleted")
+connector.disconnect()
+
+
