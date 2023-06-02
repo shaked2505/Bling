@@ -1,4 +1,4 @@
-from users.Trainee import Trainee
+from users.Trainer import Trainer
 from incomes.BrandedMerchandise import BrandedMerchandise
 from DBConnector.DBFunctions import DBConnector
 import socket
@@ -45,3 +45,5 @@ connector.disconnect()
 
 
 # (requestID, memberID, planID, reason, requestDate,approvalStatus )
+
+
