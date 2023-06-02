@@ -24,8 +24,8 @@ class Trainer:
         self.trainerID = trainerID
 
     def delete(self):
-        sql = "DELETE FROM Trainee WHERE traineeID=?;"
-        self.connector.execute_query(sql, self.traineeID)
+        sql = "DELETE FROM Trainer WHERE trainerID=?;"
+        self.connector.execute_query(sql, self.trainerID)
 
 
     def shiftAssignment(self, Training):
