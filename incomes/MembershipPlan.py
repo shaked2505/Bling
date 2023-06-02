@@ -1,9 +1,26 @@
 class MembershipPlan:
-    def __init__(self):
-        self.membershipID = 0  # int
-        self.membershipPlanDescription = ""  # str
-        self.price = 0.0  # float
-        self.membershipPlanType = ""  # str
+    def __init__(self, connector, membershipID, membershipPlanDescription,price,membershipPlanType):
+        self.membershipID = membershipID
+        self.membershipPlanDescription = membershipPlanDescription
+        self.price = price
+        self.membershipPlanType = membershipPlanType
+        self.connector=connector 
+
+
+        sql= "INSERT INTO MembershipPlan (membershipID, membershipPlanDescription,price,membershipPlanType ) VALUES (?, ?, ?, ?)"
+        values = (self.membershipID, self.membershipPlanDescription, self.price, self.membershipPlanType)
+        self.connector.execute_query(sql, values)
+
+    def set_membershipID(self, membershipID):
+        sql = "UPDATE MembershipPlan SET membershipID=? WHERE membershipID=?;"
+        values = (membershipID, self.membershipID)
+        self.connector.execute_query(sql, values)
+        self.membershipID = membershipID
+
+    def delete(self):
+        sql = "DELETE FROM MembershipPlan WHERE membershipID=?;"
+        self.connector.execute_query(sql, self.membershipID)
+
 
 
     def getPrice(self):
@@ -15,5 +32,4 @@ class MembershipPlan:
     def updateType(self, membershipPlanType):
         pass
     def getType(self):
-        pass
-
+        pass        

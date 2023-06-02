@@ -1,21 +1,22 @@
-from users.Trainer import Trainer
 from users.Trainee import Trainee
 from incomes.BrandedMerchandise import BrandedMerchandise
 from DBConnector.DBFunctions import DBConnector
 import socket
 from datetime import date
 import time
-from incomes.Payment import Payment
+from incomes.MembershipPlan import MembershipPlan
 
 
 connector = DBConnector(server=socket.gethostname(), database='BLING_System')
 connector.connect()
-Trainee = Trainee(connector, 123211, 'Dana Cohen' , '10-356-659384' , date(1990, 5, 22), 'shaked201098@gmail.com' ,'052-6265698', 4, 'DanaCohen1000', 'StudioMember: 1003')
+MembershipPlan = MembershipPlan(connector, 140, "Sbaba" , 300.00, "Year")
 print("create")
-time.sleep(30)
-Trainee.set_traineeID(1010101)
+time.sleep(10)
+MembershipPlan.set_membershipID(150)
 print("set")
-time.sleep(30)
-Trainee.delete()
+time.sleep(10)
+MembershipPlan.delete()
 print("deleted")
 connector.disconnect()
+
+
