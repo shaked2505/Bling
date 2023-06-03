@@ -1,21 +1,18 @@
-from users.Trainer import Trainer
-from users.Trainee import Trainee
-from incomes.BrandedMerchandise import BrandedMerchandise
-from DBConnector.DBFunctions import DBConnector
-import socket
 from datetime import date
-import time
-from incomes.Payment import Payment
+from flask import render_template
+from app import db, application
+from users.Trainer import Trainer
 
 
-connector = DBConnector(server=socket.gethostname(), database='BLING_System')
-connector.connect()
-Trainee = Trainee(connector, 123211, 'Dana Cohen' , '10-356-659384' , date(1990, 5, 22), 'shaked201098@gmail.com' ,'052-6265698', 4, 'DanaCohen1000', 'StudioMember: 1003')
-print("create")
-time.sleep(30)
-Trainee.set_traineeID(1010101)
-print("set")
-time.sleep(30)
-Trainee.delete()
-print("deleted")
-connector.disconnect()
+@application.route("/")
+def landing():
+    db.session.add(Trainer(55, 'Shay Levi', 'Barre', date(2021, 5, 22), '10-154-850274', 'shaked201098@gmail.com' , '052- 5843564', 'ShayLevi55', '70.00', 1111))
+    db.session.commit()
+    return render_template("test.html")
+
+
+if __name__ == '__main__':
+    with application.app_context():
+        # Create the database tables
+        db.create_all()
+    application.run()
