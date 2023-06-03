@@ -26,13 +26,6 @@ class TrainingCancellationRequestForm:
         self.connector.execute_query(sql, self.requestID)
 
 
-
-
-
-
-
-
-
     def getRequestDetails(self, requestID):
         pass
     def isConfirmed(self, requestID):
