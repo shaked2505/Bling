@@ -2,6 +2,8 @@ from datetime import date
 from flask import render_template
 from app import db, application
 from users.Trainer import Trainer
+from users.Trainee import Trainee
+
 
 
 @application.route("/")
@@ -13,6 +15,6 @@ def landing():
 
 if __name__ == '__main__':
     with application.app_context():
-        # Create the database tables
+        # Create the database tables 
         db.create_all()
     application.run()
