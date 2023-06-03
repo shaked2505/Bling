@@ -11,8 +11,8 @@ class Payment(db.Model):
     trainee = db.relationship('Trainee', backref=db.backref('trainee', uselist=False))
     membershipID =db.Column (db.Integer, db.ForeignKey('membership_plan.membershipID'))
     membership_plan = db.relationship('MembershipPlan', backref=db.backref('membership_plan', uselist=False))
-    productID = db.Column(db.Integer, db.ForeignKey('branded_merchendise.productID'))
-    branded_merchendise = db.relationship('BrandedMerchandise', backref=db.backref('branded_merchendise', uselist=False))
+    productID = db.Column(db.Integer, db.ForeignKey('branded_merchandise.productID'))
+    branded_merchendise = db.relationship('BrandedMerchandise', backref=db.backref('branded_merchandise', uselist=False))
 
 
     def __init__(self,paymentID, amount, paymentStatus, customerID, membershipID, productID):

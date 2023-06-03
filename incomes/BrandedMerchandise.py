@@ -6,8 +6,10 @@ class BrandedMerchandise(db.Model):
     unitInStock = db.Column(db.Integer)
     productName = db.Column(db.String)
     productDescription = db.Column(db.String)
-    managerID = db.Column(db.Integer)
-    paymentID = db.Column(db.Integer)
+    managerID = db.Column(db.Integer, db.ForeignKey('system_manager.managerID'))
+    system_manager = db.relationship('SystemManager', backref=db.backref('system_manager', uselist=False))
+    paymentID = db.Column(db.Integer, db.ForeignKey('payment.paymentID'))
+    payment = db.relationship('Payment', backref=db.backref('payment', uselist=False))
 
     # Create initializer/constructor
     def __init__(self, productID, price, unitInStock, productName, productDescription, managerID, paymentID):

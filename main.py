@@ -3,13 +3,12 @@ from flask import render_template
 from app import db, application
 from users.Trainer import Trainer
 from users.Trainee import Trainee
-
-
 from users.SystemManager import SystemManager
 from incomes.BrandedMerchandise import BrandedMerchandise
 from incomes.MembershipPlan import MembershipPlan
 from incomes.Payment import Payment
-from users.Trainee import Trainee
+from main_services.Training import Training
+from main_services.SpecificTimeTraining import SpecificTimeTraining
 
 @application.route("/")
 def landing():
