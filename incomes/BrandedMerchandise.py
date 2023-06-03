@@ -1,39 +1,33 @@
-class BrandedMerchandise:
-    def __init__(self, connector,productID, price, unitInStock, productName, productDescription, managerID, paymentID ):
-        self.productID = productID  
-        self.price = price  
-        self.unitInStock = unitInStock  
-        self.productName = productName  
-        self.productDescription = productDescription 
-        self.managerID = managerID  
-        self.paymentID = paymentID  
-        self.connector = connector
+from app import db
 
+class BrandedMerchandise(db.Model):
+    productID = db.Column(db.Integer, primary_key=True)
+    price = db.Column(db.Float)
+    unitInStock = db.Column(db.Integer)
+    productName = db.Column(db.String)
+    productDescription = db.Column(db.String)
+    managerID = db.Column(db.Integer)
+    paymentID = db.Column(db.Integer)
 
-
-        sql= "INSERT INTO BrandedMerchandise ( productID, price, unitInStock, productName, productDescription,managerID,paymentID ) VALUES (?, ?, ?, ?, ?, ?, ?)"
-        values = (self.productID, self.price, self.unitInStock, self.productName, self.productDescription, self.managerID, self.paymentID )
-        self.connector.execute_query(sql, values)
-
-    def set_productID(self, productID):
-        sql = "UPDATE BrandedMerchandise SET productID=? WHERE productID=?;"
-        values = (productID, self.productID)
-        self.connector.execute_query(sql, values)
+    # Create initializer/constructor
+    def __init__(self, productID, price, unitInStock, productName, productDescription, managerID, paymentID):
         self.productID = productID
-        self.connector.execute_query(sql, values)
-
-    def delete(self):
-        sql = "DELETE FROM BrandedMerchandise WHERE productID=?;"
-        self.connector.execute_query(sql, self.productID)
-        self.connector.execute_query(sql, self.productID)
-
-
-
+        self.price = price
+        self.unitInStock = unitInStock
+        self.productName = productName
+        self.productDescription = productDescription
+        self.managerID = managerID
+        self.paymentID = paymentID
+     
     def getPrice(self):
-        pass
-    def setPrice(self, price):
-        pass
+        return self.price
+    
+    def setPrice(self,new_price):
+        self.price = new_price
+        db.session.commit()  
+
     def getDescription(self):
-        pass  
+        return self.productDescription
+    
     def getUnitInStock(self):
-        pass
+        return self.unitInStock

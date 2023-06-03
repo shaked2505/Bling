@@ -1,4 +1,5 @@
 import datetime
+from app import db
 
 class DataReport:
     def __init__(self, reportID, dateCreated, summary):
