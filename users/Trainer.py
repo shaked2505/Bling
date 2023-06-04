@@ -10,7 +10,8 @@ class Trainer(db.Model):
     phoneNumber = db.Column(db.String)
     loginDetails = db.Column(db.String)
     hourlyWage = db.Column(db.Float)
-    managerID = db.Column(db.Integer)
+    managerID = db.Column(db.Integer, db.ForeignKey('system_manager.managerID'))
+    system_manager = db.relationship('SystemManager', backref=db.backref('system_manager', uselist=False))
 
     # Create initializer/constructor
     def __init__(self, trainerID, trainerFullName, specialty, hireDate, bankAccount, email, phoneNumber, loginDetails, hourlyWage, managerID):

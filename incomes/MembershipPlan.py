@@ -1,35 +1,33 @@
-class MembershipPlan:
-    def __init__(self, connector, membershipID, membershipPlanDescription,price,membershipPlanType):
+from app import db
+
+class MembershipPlan(db.Model):
+    membershipID = db.Column(db.Integer, primary_key=True)
+    membershipPlanDescription = db.Column(db.String)
+    price = db.Column(db.Float)
+    membershipPlanType = db.Column(db.String)
+
+    # Create initializer/constructor
+    def __init__(self, membershipID, membershipPlanDescription, price, membershipPlanType):
         self.membershipID = membershipID
         self.membershipPlanDescription = membershipPlanDescription
         self.price = price
         self.membershipPlanType = membershipPlanType
-        self.connector=connector 
-
-
-        sql= "INSERT INTO MembershipPlan (membershipID, membershipPlanDescription,price,membershipPlanType ) VALUES (?, ?, ?, ?)"
-        values = (self.membershipID, self.membershipPlanDescription, self.price, self.membershipPlanType)
-        self.connector.execute_query(sql, values)
-
-    def set_membershipID(self, membershipID):
-        sql = "UPDATE MembershipPlan SET membershipID=? WHERE membershipID=?;"
-        values = (membershipID, self.membershipID)
-        self.connector.execute_query(sql, values)
-        self.membershipID = membershipID
-
-    def delete(self):
-        sql = "DELETE FROM MembershipPlan WHERE membershipID=?;"
-        self.connector.execute_query(sql, self.membershipID)
-
-
+      
 
     def getPrice(self):
-        pass
+        return self.price
+
     def setPrice(self, price):
-        pass
+        self.price = price
+        db.session.commit()
+
     def updateDescription(self, membershipPlanDescription):
-        pass
+        self.membershipPlanDescription = membershipPlanDescription
+        db.session.commit()
+
     def updateType(self, membershipPlanType):
-        pass
+        self.membershipPlanType = membershipPlanType
+        db.session.commit()
+
     def getType(self):
-        pass        
+        return self.membershipPlanType
