@@ -91,9 +91,9 @@ connector.execute_query(sql, values)
 sql= "INSERT INTO SpecificTimeTraining (specificTimeTrainingDate , trainingID , startTime, endTime, standbyTrainer, trainerID ) VALUES (?, ?, ?, ?, ?, ?)"
  
 # Define the values to be inserted
-values = ( str(date(2023, 5, 20)), 1, str(time(9, 30)), str(time(10, 30)), 55, 66 ) 
+values = ( str(date(2023, 6, 5)), 1, str(time(9, 30)), str(time(10, 30)), 55, 66 ) 
 connector.execute_query(sql, values)
-values = ( str(date(2023, 4, 12)), 4, str(time(20, 0)), str(time(21, 5)), 66, 77 )
+values = ( str(date(2023, 6, 3)), 4, str(time(20, 0)), str(time(21, 5)), 66, 77 )
 connector.execute_query(sql, values)
 values= ( str(date(2023, 3, 3)), 3, str(time(10, 30)), str(time(11, 20)), 77, 55 )
 connector.execute_query(sql, values)
