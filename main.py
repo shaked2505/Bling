@@ -27,6 +27,10 @@ def login():
 def member():
     return render_template("membershipCan.html")
 
+@application.route("/trainingReg")
+def trainingReg():
+    return render_template("trainingReg.html")
+
 @application.route("/create_records")
 def create_records():
     ad_db.create_Trainings()
