@@ -10,7 +10,7 @@ class Trainee(db.Model):
     email = db.Column(db.String)
     phoneNumber = db.Column(db.String)
     membershipID =db.Column (db.Integer, db.ForeignKey('membership_plan.membershipID'))
-    membership_plan = db.relationship('MembershipPlan', backref=db.backref('membership_plan', uselist=False))
+    membership_plan = db.relationship('MembershipPlan', foreign_keys=[membershipID])
     loginDetails = db.Column(db.String)
     recruitedBy = db.Column(db.String)
 
