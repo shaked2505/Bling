@@ -14,11 +14,11 @@ class Trainee(db.Model):
     loginDetails = db.Column(db.String)
     recruitedBy = db.Column(db.String)
 
-    def __init__(self, traineeID, traineeFullName, bankAccount, birthday, email, phoneNumber, membershipID, loginDetails, recruitedBy):
+    def __init__(self, traineeID, traineeFullName, bankAccount, birthday, email, phoneNumber, membershipID, loginDetails, recruitedBy, joiningDate=datetime.date.today()):
         self.traineeID = traineeID
         self.traineeFullName = traineeFullName
         self.bankAccount = bankAccount
-        self.joiningDate = datetime.date.today()
+        self.joiningDate = joiningDate
         self.birthday = birthday
         self.email = email
         self.phoneNumber = phoneNumber

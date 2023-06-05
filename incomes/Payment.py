@@ -15,12 +15,12 @@ class Payment(db.Model):
     branded_merchendise = db.relationship('BrandedMerchandise', foreign_keys=[productID])
 
 
-    def __init__(self,paymentID, amount, paymentStatus, customerID, membershipID, productID):
+    def __init__(self,paymentID, amount, paymentStatus, traineeID, membershipID, productID, dateOfPayment=datetime.date.today()):
         self.paymentID = paymentID
         self.amount = amount
-        self.dateOfPayment = datetime.date.today()
+        self.dateOfPayment = dateOfPayment
         self.paymentStatus = paymentStatus
-        self.customerID = customerID
+        self.traineeID = traineeID
         self.membershipID = membershipID
         self.productID = productID
            

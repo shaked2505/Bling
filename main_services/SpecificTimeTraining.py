@@ -12,14 +12,10 @@ class SpecificTimeTraining(db.Model):
     trainerID= db.Column(db.Integer,db.ForeignKey('trainer.trainerID') ) 
     trainer = db.relationship('Trainer', foreign_keys=[trainerID], uselist=False)
 
-    def __init__(self, specificTimeTrainingDate, trainingID, startTime, endTime, standByTrainer, registeredTrainees):
+    def __init__(self, specificTimeTrainingDate, trainingID, startTime, endTime, standByTrainer, trainerID):
         self.specificTimeTrainingDate = specificTimeTrainingDate
         self.trainingID = trainingID
         self.startTime = startTime
         self.endTime = endTime
         self.standByTrainer = standByTrainer
-
-
-
-
-
+        self.trainerID = trainerID

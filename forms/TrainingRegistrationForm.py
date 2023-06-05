@@ -12,11 +12,11 @@ class TrainingRegistrationForm(db.Model):
     __table_args__ = (ForeignKeyConstraint([specificTimeTrainingDate, trainingID],
                                     [SpecificTimeTraining.specificTimeTrainingDate, SpecificTimeTraining.trainingID]),
                     {})
-    requestDate = db.Column(db.Date, default=datetime.date.today())
+    requestDate = db.Column(db.Date)
     approvalStatus = db.Column(db.String)
 
     # Create initializer/constructor
-    def __init__(self, registrationID, traineeID,trainingID ,specificTimeTrainingDate, requestDate, approvalStatus):
+    def __init__(self, registrationID, traineeID,trainingID, approvalStatus, specificTimeTrainingDate, requestDate=datetime.date.today()):
         self.registrationID = registrationID
         self.traineeID = traineeID
         self.trainingID = trainingID

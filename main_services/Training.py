@@ -9,12 +9,12 @@ class Training(db.Model):
     trainingDescription= db.Column(db.String)
    
     # Create initializer/constructor
-    def __init__(self, membershipID, membershipPlanDescription, price, membershipPlanType):
-        self.membershipID = membershipID
-        self.membershipPlanDescription = membershipPlanDescription
-        self.price = price
-        self.membershipPlanType = membershipPlanType
-      
+    def __init__(self, trainingID, trainingType, capacity, duration,trainingDescription):
+        self.trainingID = trainingID
+        self.trainingType = trainingType
+        self.capacity = capacity
+        self.duration = duration
+        self.trainingDescription= trainingDescription
     def getTrainer(self, Trainer):
         pass
     def setTrainer(self, Trainer):
