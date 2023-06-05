@@ -1,4 +1,3 @@
-import pyodbc
 from datetime import date, time
 import socket
 from DBFunctions import DBConnector
@@ -176,5 +175,4 @@ values=(2005, 700.0, str(date(2023, 3, 12)) , 'Approved', 1000, 4, None )
 connector.execute_query(sql, values)
 
 connector.disconnect
-
 
