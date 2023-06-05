@@ -1,86 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet" href="static/css/membershipCan.css">
   <title>Membership Cancellation Request</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      line-height: 1.2;
-      background-color: #ccc;
-    }
 
-    .container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-
-    .form-container {
-      width: 400px;
-      padding: 30px;
-      background-color: #ffffff;
-      border-radius: 5px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-      margin-top: 50px; /* Adjust the margin-top value as needed */
-      display: flex;
-      flex-direction: column;
-      align-items: center; /* Center the logo */
-    }
-
-    h1 {
-      font-size: 36px;
-      margin-bottom: 10px;
-      text-align: center;
-    }
-
-    img {
-      width: 140px;
-      margin-bottom: 20px;
-    }
-
-    label {
-      display: block;
-      margin-bottom: 10px;
-    }
-
-    input[type="text"],
-    input[type="date"],
-    textarea {
-      width: 100%;
-      padding: 5px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-      margin-bottom: 10px;
-    }
-
-    input[type="submit"] {
-      background-color: #bab9b9;
-      color: #080000;
-      padding: 10px 20px;
-      text-decoration: none;
-      font-size: 16px;
-      border-radius: 5px;
-      margin-top: 20px;
-      border: none;
-      cursor: pointer;
-      width: 100%;
-    }
-
-    input[type="submit"]:hover {
-      background-color: #a395d6;
-    }
-
-    /* Hide the labels and input fields */
-    label[for="requestID"],
-    input#requestID,
-    label[for="traineeID"],
-    input#traineeID,
-    label[for="membershipID"],
-    input#membershipID {
-      display: none;
-    }
-  </style>
 </head>
 <body>
   <div class="container">
@@ -88,6 +11,10 @@
       <h1>Membership Cancellation Request</h1>
       <img src="static\images\logo.png" alt="Logo" width="140px">
       <form action="/submit-cancellation" method="POST">
+
+        <input type="hidden" name="requestID" id="requestID" required>
+        <input type="hidden" name="traineeID" id="traineeID" required>
+        <input type="hidden" name="membershipID" id="membershipID" required>
         <label for="reason">Reason:</label>
         <textarea name="reason" id="reason" required></textarea><br><br>
         
