@@ -103,7 +103,7 @@ connector.execute_query(sql, values)
 
 #-------MembershipCancellationRequestForm-------
 # Prepare the SQL INSERT statement
-sql= "INSERT INTO MembershipCancellationRequestForm (requestID, memberID , planID , reason, requestDate, approvalStatus) VALUES (?, ?, ?, ?, ?, ?)"
+sql= "INSERT INTO MembershipCancellationRequestForm (requestID, traineeID , membershipID , reason, requestDate, approvalStatus) VALUES (?, ?, ?, ?, ?, ?)"
  
 # Define the values to be inserted
 values = ( 11, 1001, 4, 'Too expensive' ,  str(date(2023, 4,12)), 'Declined' ) 
@@ -115,7 +115,7 @@ connector.execute_query(sql, values)
 
 #-------TrainingRegistrationForm-------
 # Prepare the SQL INSERT statement
-sql= "INSERT INTO TrainingRegistrationForm (registrationID, memberID , trainingID , approvalStatus, SpecificTimeTrainingDate, requestDate) VALUES (?, ?, ?, ?, ?, ?)"
+sql= "INSERT INTO TrainingRegistrationForm (registrationID, traineeID , trainingID , approvalStatus, SpecificTimeTrainingDate, requestDate) VALUES (?, ?, ?, ?, ?, ?)"
 #Define the values to be inserted
 values = ( 111, 1000, 1, 'Approved', str(date(2023, 5 ,20)), str(date(2023, 5 ,18)) ) 
 connector.execute_query(sql, values)
@@ -131,7 +131,7 @@ connector.execute_query(sql, values)
 #-------TrainingCancellationRequestForm-------
 # Prepare the SQL INSERT statement
 
-sql= "INSERT INTO TrainingCancellationRequestForm (requestID, memberID , reason, approvalStatus, specificTimeTrainingDate , trainingID, requestDate) VALUES (?, ?, ?, ?, ?, ?, ?)"
+sql= "INSERT INTO TrainingCancellationRequestForm (requestID, traineeID , reason, approvalStatus, specificTimeTrainingDate , trainingID, requestDate) VALUES (?, ?, ?, ?, ?, ?, ?)"
 # Define the values to be inserted
 values = ( 220, 1000, 'Timetable constraints ' , 'Approved', str(date(2023, 5,10)),2 ,str(date(2023, 5,9)) )  
 connector.execute_query(sql, values)
@@ -146,7 +146,7 @@ connector.execute_query(sql, values)
 
 #-------BrandedMerchandise-------
 # Prepare the SQL INSERT statement
-sql= "INSERT INTO BrandedMerchandise (productID, price, unitInStock, productName, productDescription,managerID,paymentID ) VALUES (?, ?, ?, ?, ?, ?, ?)"
+sql= "INSERT INTO BrandedMerchandise (productID, price, unitInStock, productName, productDescription,managerID) VALUES (?, ?, ?, ?, ?, ?, ?)"
 
 # Define the values to be inserted
 values = ( 300, 50.00 , 20 ,'Water Bottle', 'Stainless steel bottle, contains 500 ml' ,1111, None,)
@@ -159,7 +159,7 @@ connector.execute_query(sql, values)
 
 # #-------Payment-------
 # Prepare the SQL INSERT statement
-sql= "INSERT INTO Payment (paymentID, amount, dateOfPayment, paymentStatus, customerID, membershipID  , productID ) VALUES (?, ?, ?, ?, ?, ?, ? )"
+sql= "INSERT INTO Payment (paymentID, amount, dateOfPayment, paymentStatus, traineeID, membershipID  , productID ) VALUES (?, ?, ?, ?, ?, ?, ? )"
 
 # Define the values to be inserted
 values = (2000, 480.0, str(date(2023, 5, 1)), 'Approved' , 1001, 8, None) 
