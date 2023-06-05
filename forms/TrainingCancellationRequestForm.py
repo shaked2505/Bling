@@ -23,6 +23,8 @@ class TrainingCancellationRequestForm(db.Model):
         self.trainingID = trainingID
         self.requestDate = datetime.date.today()
 
+    def getRequestDetails(self, requestID):
+        pass
     def isConfirmed(self, requestID):
         return self.approvalStatus
 
