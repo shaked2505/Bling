@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="static/css/membershipCan.css">
+  <title>Membership Cancellation Request</title>
+
+</head>
+<body>
+  <div class="container">
+    <div class="form-container">
+      <h1>Membership Cancellation Request</h1>
+      <img src="static\images\logo.png" alt="Logo" width="140px">
+      <form action="/submit-cancellation" method="POST">
+
+        <input type="hidden" name="requestID" id="requestID" required>
+        <input type="hidden" name="traineeID" id="traineeID" required>
+        <input type="hidden" name="membershipID" id="membershipID" required>
+        <label for="reason">Reason:</label>
+        <textarea name="reason" id="reason" required></textarea><br><br>
+        
+        <label for="requestDate">Request Date:</label>
+        <input type="date" name="requestDate" id="requestDate" required><br><br>
+        <input type="submit" value="Submit">
+      </form>
+    </div>
+  </div>
+</body>
+</html>
+
