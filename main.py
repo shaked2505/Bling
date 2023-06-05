@@ -23,6 +23,10 @@ def home():
 def login():
     return render_template("home.html")
 
+@application.route("/membershipCan")
+def member():
+    return render_template("membershipCan.html")
+
 @application.route("/schedule")
 def schedule():
     current_date = datetime.now().date()
