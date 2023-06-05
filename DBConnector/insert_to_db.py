@@ -1,4 +1,3 @@
-import pyodbc
 from datetime import date, time
 import socket
 from DBFunctions import DBConnector
