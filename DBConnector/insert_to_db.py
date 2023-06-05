@@ -2,13 +2,21 @@ from datetime import date, time
 import socket
 from DBFunctions import DBConnector
 
-connector = DBConnector(server=socket.gethostname(), database='BLING_System')
+
+
+
+# Assuming you have already established a connection and created a cursor
+# ...
+
+
+connector = DBConnector(server=socket.gethostname(), database='bling')
 connector.connect()
 
 
-#-------Training-------
+
+#-------training-------
 # Prepare the SQL INSERT statement
-sql= "INSERT INTO Training (trainingID, trainingType, capacity, duration, trainingDescription ) VALUES (?, ?, ?, ?, ?)"
+sql= "INSERT INTO training (trainingID, trainingType, capacity, duration, trainingDescription ) VALUES (?, ?, ?, ?, ?)"
 
 # Define the values to be inserted
 values = (1, 'Power',8, 60, "Functional training with weights and other instruments incorporates resistance exercises that mimic real-life movements to enhance overall strength, stability, and mobility.")
@@ -23,18 +31,18 @@ values= (5,'Hit' , 12 , 60, "HIIT workouts involve short bursts of intense exerc
 connector.execute_query(sql, values)
 
 
-#-------SystemManager-------
+#-------system_manager-------
 # Prepare the SQL INSERT statement
-sql= "INSERT INTO SystemManager (managerID , managerFullName, bankAccount, email, phoneNumber,  loginDetails) VALUES (?, ?, ?, ?, ?, ?)"
+sql= "INSERT INTO system_manager (managerID , managerFullName, bankAccount, email, phoneNumber,  loginDetails) VALUES (?, ?, ?, ?, ?, ?)"
  
 # Define the values to be inserted
 values = (1111, 'Bar Diamant',  '10-350-789543', 'bar154@gmail.com', '054-7895279', 'Bar Diamant1111')
 connector.execute_query(sql, values)
 
 
-#-------Trainer-------
+#-------trainer-------
 # Prepare the SQL INSERT statement
-sql= "INSERT INTO Trainer (trainerID, trainerFullName, specialty, hireDate, bankAccount , email, phoneNumber, loginDetails, hourlyWage, managerID ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+sql= "INSERT INTO trainer (trainerID, trainerFullName, specialty, hireDate, bankAccount , email, phoneNumber, loginDetails, hourlyWage, managerID ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
 
 # Define the values to be inserted
 values = ( 55, 'Shay Levi', 'Barre', str(date(2021, 5, 22)), '10-154-850274', 'shaked201098@gmail.com' , '052- 5843564', 'ShayLevi55', '70.00', 1111)
@@ -49,9 +57,9 @@ values= ( 99, 'Noa Maor', 'Hit', str(date(2023, 2, 18)), '4-768-758940', 'noa@gm
 connector.execute_query(sql, values)
  
 
- #-------MembershipPlan-------
+ #-------membership_plan-------
 # Prepare the SQL INSERT statement
-sql= "INSERT INTO MembershipPlan (membershipID, membershipPlanType, membershipPlanDescription, price) VALUES (?, ?, ?, ?)"
+sql= "INSERT INTO membership_plan (membershipID, membershipPlanType, membershipPlanDescription, price) VALUES (?, ?, ?, ?)"
  
 # Define the values to be inserted
 values = ( 4," 4 monthly entries", " does not include reformer Pilates ", 260.0) 
@@ -71,9 +79,9 @@ connector.execute_query(sql, values)
 values=(10," unlimited", " does not include reformer Pilates ", 650.0)
 connector.execute_query(sql, values)
  
-#-------Trainee-------
+#-------trainee-------
 # Prepare the SQL INSERT statement
-sql= "INSERT INTO Trainee (traineeID, traineeFullName, bankAccount, birthday, email, phoneNumber, joiningDate, membershipID , loginDetails, recruitedBy ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+sql= "INSERT INTO trainee (traineeID, traineeFullName, bankAccount, birthday, email, phoneNumber, joiningDate, membershipID , loginDetails, recruitedBy ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
  
 # Define the values to be inserted
 values = (1000, 'Dana Cohen' , '10-356-659384' , str(date(1990, 5, 22)), 'shaked201098@gmail.com' ,'052-6265698', str(date(2020, 7, 20)), 4, 'DanaCohen1000', 'StudioMember: 1003') 
@@ -97,9 +105,9 @@ connector.execute_query(sql, values)
 
   
 
-#-------SpecificTimeTraining-------
+#-------specific_time_training-------
 # Prepare the SQL INSERT statement
-sql= "INSERT INTO SpecificTimeTraining (specificTimeTrainingDate , trainingID , startTime, endTime, standbyTrainer, trainerID ) VALUES (?, ?, ?, ?, ?, ?)"
+sql= "INSERT INTO specific_time_training (specificTimeTrainingDate , trainingID , startTime, endTime, standbyTrainer, trainerID ) VALUES (?, ?, ?, ?, ?, ?)"
  
 # Define the values to be inserted
 values = ( str(date(2023, 6, 4)), 1, str(time(16, 00)), str(time(17, 00)), 55, 66 ) 
@@ -165,9 +173,9 @@ values= ( str(date(2023, 6, 9)), 5, str(time(10, 00)), str(time(11, 00)), 55, 88
 
 
 
-#-------MembershipCancellationRequestForm-------
+#-------membership_cancellation_request_form-------
 # Prepare the SQL INSERT statement
-sql= "INSERT INTO MembershipCancellationRequestForm (requestID, traineeID , membershipID , reason, requestDate, approvalStatus) VALUES (?, ?, ?, ?, ?, ?)"
+sql= "INSERT INTO membership_cancellation_request_form (requestID, traineeID , membershipID , reason, requestDate, approvalStatus) VALUES (?, ?, ?, ?, ?, ?)"
  
 # Define the values to be inserted
 values = ( 11, 1001, 4, 'Too expensive' ,  str(date(2023, 4,12)), 'Declined' ) 
@@ -180,9 +188,9 @@ connector.execute_query(sql, values)
 
 
 
-#-------TrainingRegistrationForm-------
+#-------training_registration_form-------
 # Prepare the SQL INSERT statement
-sql= "INSERT INTO TrainingRegistrationForm (registrationID, traineeID , trainingID , approvalStatus, SpecificTimeTrainingDate, requestDate) VALUES (?, ?, ?, ?, ?, ?)"
+sql= "INSERT INTO training_registration_form (registrationID, traineeID , trainingID , approvalStatus, SpecificTimeTrainingDate, requestDate) VALUES (?, ?, ?, ?, ?, ?)"
 #Define the values to be inserted
 values = ( 111, 1000, 1, 'Approved', str(date(2023, 5 ,20)), str(date(2023, 5 ,18)) ) 
 connector.execute_query(sql, values)
@@ -195,10 +203,10 @@ connector.execute_query(sql, values)
 values= (115, 1002, 1, 'Approved', str(date(2023, 5, 20)) ,str(date(2023, 5, 18)) )
 connector.execute_query(sql, values)
 
-#-------TrainingCancellationRequestForm-------
+#-------training_cancellation_request_form-------
 # Prepare the SQL INSERT statement
 
-sql= "INSERT INTO TrainingCancellationRequestForm (requestID, traineeID , reason, approvalStatus, specificTimeTrainingDate , trainingID, requestDate) VALUES (?, ?, ?, ?, ?, ?, ?)"
+sql= "INSERT INTO training_cancellation_request_form (requestID, traineeID , reason, approvalStatus, specificTimeTrainingDate , trainingID, requestDate) VALUES (?, ?, ?, ?, ?, ?, ?)"
 # Define the values to be inserted
 values = ( 220, 1000, 'Timetable constraints ' , 'Approved', str(date(2023, 5,10)),2 ,str(date(2023, 5,9)) )  
 connector.execute_query(sql, values)
@@ -211,9 +219,9 @@ connector.execute_query(sql, values)
 values= (224, 1002, 'Health conditions' , 'Approved',  str(date(2023, 5, 10)), 2, str(date(2023, 5, 9)) )
 connector.execute_query(sql, values)
 
-#-------BrandedMerchandise-------
+#-------branded_merchandise-------
 # Prepare the SQL INSERT statement
-sql= "INSERT INTO BrandedMerchandise (productID, price, unitInStock, productName, productDescription,managerID) VALUES (?, ?, ?, ?, ?, ?, ?)"
+sql= "INSERT INTO branded_merchandise (productID, price, unitInStock, productName, productDescription,managerID) VALUES (?, ?, ?, ?, ?, ?, ?)"
 
 # Define the values to be inserted
 values = ( 300, 50.00 , 20 ,'Water Bottle', 'Stainless steel bottle, contains 500 ml' ,1111, None,)
@@ -224,9 +232,9 @@ values = (302, 70.00, 30, 'Bling Hat' , 'Designed hat made of 70% cotton fabric,
 connector.execute_query(sql, values)
 
 
-# #-------Payment-------
+# #-------payment-------
 # Prepare the SQL INSERT statement
-sql= "INSERT INTO Payment (paymentID, amount, dateOfPayment, paymentStatus, traineeID, membershipID  , productID ) VALUES (?, ?, ?, ?, ?, ?, ? )"
+sql= "INSERT INTO payment (paymentID, amount, dateOfPayment, paymentStatus, traineeID, membershipID  , productID ) VALUES (?, ?, ?, ?, ?, ?, ? )"
 
 # Define the values to be inserted
 values = (2000, 480.0, str(date(2023, 5, 1)), 'Approved' , 1001, 8, None) 
