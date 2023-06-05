@@ -16,12 +16,12 @@ from forms.TrainingRegistrationForm import TrainingRegistrationForm
 
 
 @application.route("/")
-def landing():
-    # db.session.add(Trainer(66, 'Miri Bar Lev', 'Power and MatPilates', str(date(2022, 7, 18)), '12-294-972547', 'miri@gmail.com', '052-8653908', 'MiriBarLev66', '65.00', 1111))
-    # db.session.add(BrandedMerchandise(300, 50.00, 20, 'Water Bottle', 'Stainless steel bottle, contains 500 ml', 1111, None))
-    # db.session.add(SystemManager(1111, 'Bar Diamant',  '10-350-789543', 'bar154@gmail.com', '054-7895279', 'Bar Diamant1111'))
-    # db.session.commit()
-    return render_template("test.html")
+def home():
+    return render_template("login.html")
+
+@application.route("/home")
+def login():
+    return render_template("home.html")
 
 @application.route("/schedule")
 def schedule():
@@ -35,8 +35,11 @@ def schedule():
     print(f"test {time_schedules}")
     return render_template("schedule.html")
 
+
 if __name__ == '__main__':
     with application.app_context():
         # Create the database tables 
         db.create_all()
     application.run()
+
+
