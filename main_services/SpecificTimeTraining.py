@@ -3,7 +3,7 @@ from app import db
 
 class SpecificTimeTraining(db.Model):
     specificTimeTrainingDate = db.Column(db.Date, primary_key=True)
-    trainingID = db.Column(db.Integer,db.ForeignKey('training.trainingID'), primary_key=True ) 
+    trainingID = db.Column(db.Integer,db.ForeignKey('training.trainingID'), primary_key=True)
     training = db.relationship('Training', foreign_keys=[trainingID])
     startTime = db.Column(db.Time)
     endTime = db.Column(db.Time)

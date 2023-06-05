@@ -10,6 +10,10 @@ from incomes.Payment import Payment
 from main_services.Training import Training
 from main_services.SpecificTimeTraining import SpecificTimeTraining
 from datetime import datetime,timedelta
+from forms.MembershipCancellationRequestForm import MembershipCancellationRequestForm
+from forms.TrainingCancellationRequestForm import TrainingCancellationRequestForm
+from forms.TrainingRegistrationForm import TrainingRegistrationForm
+
 
 @application.route("/")
 def landing():
