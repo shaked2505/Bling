@@ -1,7 +1,6 @@
 from datetime import date, time
 from app import db
 
-
 class SpecificTimeTraining(db.Model):
     specificTimeTrainingDate = db.Column(db.Date, primary_key=True)
     trainingID = db.Column(db.Integer,db.ForeignKey('training.trainingID'), primary_key=True)
