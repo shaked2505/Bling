@@ -1,22 +1,20 @@
 import datetime
-from sqlalchemy import ForeignKeyConstraint
-from main_services.SpecificTimeTraining import SpecificTimeTraining
 from app import db
 
 class TrainingRegistrationForm(db.Model):
     registrationID = db.Column(db.Integer, primary_key=True)
     traineeID = db.Column(db.Integer, db.ForeignKey('trainee.traineeID'))
-    trainee = db.relationship('Trainee', foreign_keys=[traineeID])
-    trainingID = db.Column(db.Integer)
-    specificTimeTrainingDate = db.Column(db.Date)
-    __table_args__ = (ForeignKeyConstraint([specificTimeTrainingDate, trainingID],
-                                    [SpecificTimeTraining.specificTimeTrainingDate, SpecificTimeTraining.trainingID]),
-                    {})
-    requestDate = db.Column(db.Date, default=datetime.date.today())
+    trainee = db.relationship('Trainee', backref=db.backref('trainee', uselist=False))
+    reason = db.Column(db.String)
     approvalStatus = db.Column(db.String)
+    specificTimeTrainingDate = db.Column(db.Date, db.ForeignKey('specific_time_training.specificTimeTrainingDate'))
+    specific_time_training_date = db.relationship('SpecificTimeTraining', backref=db.backref('specific_time_training', uselist=False))
+    trainingID = db.Column(db.Integer, db.ForeignKey('specific_time_training.trainingID'))
+    specific_time_training_id = db.relationship('SpecificTimeTraining', backref=db.backref('specific_time_training', uselist=False))
+    requestDate = db.Column(db.DateTime, default=datetime.date.today())
 
-    # Create initializer/constructor
-    def __init__(self, registrationID, traineeID,trainingID ,specificTimeTrainingDate, requestDate, approvalStatus):
+class TrainingRegistrationForm:
+    def __init__(self, connector,registrationID, memberID, trainingID, specificTimeTrainingDate ,approvalStatus):
         self.registrationID = registrationID
         self.traineeID = traineeID
         self.trainingID = trainingID
