@@ -13,7 +13,7 @@ from datetime import datetime,timedelta
 from forms.MembershipCancellationRequestForm import MembershipCancellationRequestForm
 from forms.TrainingCancellationRequestForm import TrainingCancellationRequestForm
 from forms.TrainingRegistrationForm import TrainingRegistrationForm
-
+import add_to_db as ad_db
 
 @application.route("/")
 def home():
@@ -22,6 +22,21 @@ def home():
 @application.route("/home")
 def login():
     return render_template("home.html")
+
+@application.route("/create_records")
+def create_records():
+    ad_db.create_Trainings()
+    ad_db.create_SystemManager()
+    ad_db.create_MembershipPlan()
+    ad_db.create_Trainer()
+    ad_db.create_BrandedMerchandise()
+    ad_db.create_Trainee()
+    ad_db.create_MembershipCancellationRequestForm()
+    ad_db.create_Payment()
+    ad_db.create_SpecificTimeTraining()
+    ad_db.create_TrainingRegistrationForm()
+    ad_db.create_TrainingCancellationRequestForm()
+    return render_template("test.html")
 
 @application.route("/schedule")
 def schedule():

@@ -10,7 +10,7 @@ class BrandedMerchandise(db.Model):
     system_manager = db.relationship('SystemManager', foreign_keys=[managerID])
 
     # Create initializer/constructor
-    def __init__(self, productID, price, unitInStock, productName, productDescription, managerID, paymentID):
+    def __init__(self, productID, price, unitInStock, productName, productDescription, managerID):
         self.productID = productID
         self.price = price
         self.unitInStock = unitInStock

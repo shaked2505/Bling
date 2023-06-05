@@ -7,7 +7,7 @@ class MembershipPlan(db.Model):
     membershipPlanType = db.Column(db.String)
 
     # Create initializer/constructor
-    def __init__(self, membershipID, membershipPlanDescription, price, membershipPlanType):
+    def __init__(self, membershipID, membershipPlanType, membershipPlanDescription, price):
         self.membershipID = membershipID
         self.membershipPlanDescription = membershipPlanDescription
         self.price = price
