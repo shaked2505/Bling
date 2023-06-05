@@ -176,4 +176,3 @@ connector.execute_query(sql, values)
 
 connector.disconnect
 
-
