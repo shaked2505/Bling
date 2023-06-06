@@ -4,74 +4,48 @@
 <html>
 <head>
 <link rel="stylesheet" href="static/css/membershipCan.css">
-  <title>Membership Cancellation Request</title>
+  <title>Schedule Training</title>
 
 </head>
 <body>
   <div class="container">
     <div class="form-container-table">
       <h1>Schedule Training</h1>
+
+      {% for date in schedule_map.keys() %}
       <table class="table">
-        <thead class="thead-dark">
+        <thead class="schedule-date-color">
           <tr>
-          <th scope="col">Time</th>
-          <th scope="col">Workout Type</th>
-          <th scope="col">Trainer</th>
-          <th scope="col">Action</th>
+          <th scope="col"></th>
+          <th scope="col"></th>
+          <th scope="col">{{ date.strftime("%d/%m/%Y") }}</th>
+          <th scope="col"></th>
+          <th scope="col"></th>
           </tr>
         </thead>
-        <tbody>
-          <tr>
-          <th scope="row">1</th>
-          <td>Mark</td>
-          <td>Otto</td>
-          <td><button type="button" class="btn btn-info">schedule</button></td>
-          </tr>
-          <tr>
-          <th scope="row">2</th>
-          <td>Jacob</td>
-          <td>Thornton</td>
-          <td><button type="button" class="btn btn-info">schedule</button></td>
-          </tr>
-          <tr>
-          <th scope="row">3</th>
-          <td>Larry</td>
-          <td>the Bird</td>
-          <td><button type="button" class="btn btn-info">schedule</button></td>
-          </tr>
-        </tbody>
-        </table>
-        
-        <table class="table">
         <thead class="thead-light">
           <tr>
-            <th scope="col">Time</th>
+            <th scope="col">Start Time</th>
+            <th scope="col">End Time</th>
             <th scope="col">Workout Type</th>
             <th scope="col">Trainer</th>
             <th scope="col">Action</th>
           </tr>
         </thead>
         <tbody>
+          {% for schedule in schedule_map[date] %}
           <tr>
-          <th scope="row">1</th>
-          <td>Mark</td>
-          <td>Otto</td>
-          <td><button type="button" class="btn btn-info">schedule</button></td>
+            <td>{{ schedule.startTime.strftime("%H:%M") }}</td>
+            <td>{{ schedule.endTime.strftime("%H:%M") }}</td>
+            <td>{{ trainings[schedule.trainingID].trainingType }}</td>
+            <td>{{ trainers[schedule.trainerID].trainerFullName }}</td>
+            <td><button type="button" class="btn btn-info">schedule</button></td>
           </tr>
-          <tr>
-          <th scope="row">2</th>
-          <td>Jacob</td>
-          <td>Thornton</td>
-          <td><button type="button" class="btn btn-info">schedule</button></td>
-          </tr>
-          <tr>
-          <th scope="row">3</th>
-          <td>Larry</td>
-          <td>the Bird</td>
-          <td><button type="button" class="btn btn-info">schedule</button></td>
-          </tr>
+          {% endfor %}
         </tbody>
         </table>
+      {% endfor %}
+
     </div>
   </div>
 </body>

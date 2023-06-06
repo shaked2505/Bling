@@ -6,7 +6,7 @@ class BrandedMerchandise(db.Model):
     unitInStock = db.Column(db.Integer)
     productName = db.Column(db.String)
     productDescription = db.Column(db.String)
-    managerID = db.Column(db.String(9), db.ForeignKey('system_manager.managerID'))
+    managerID = db.Column(db.String, db.ForeignKey('system_manager.managerID'))
     system_manager = db.relationship('SystemManager', foreign_keys=[managerID])
 
     # Create initializer/constructor

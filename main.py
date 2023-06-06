@@ -14,6 +14,7 @@ from forms.MembershipCancellationRequestForm import MembershipCancellationReques
 from forms.TrainingCancellationRequestForm import TrainingCancellationRequestForm
 from forms.TrainingRegistrationForm import TrainingRegistrationForm
 import add_to_db as ad_db
+from sqlalchemy import asc
 
 @application.route("/")
 def home():
@@ -41,14 +42,42 @@ def create_records():
 @application.route("/schedule")
 def schedule():
     current_date = datetime.now().date()
+    current_time = datetime.now().time()
 
-    # Calculate the start and end dates of the current week
-    start_of_week = current_date - timedelta(days=current_date.weekday())
-    end_of_week = start_of_week + timedelta(days=6)
-    time_schedules = Trainer.query.all()
-    # time_schedules = SpecificTimeTraining.query.filter(SpecificTimeTraining.specificTimeTrainingDate.between(start_of_week, end_of_week)).all()
-    print(f"test {time_schedules}")
-    return render_template("schedule.html")
+    # Filter objects based on the current date and time
+    filtered_schedules = SpecificTimeTraining.query.filter(
+        SpecificTimeTraining.specificTimeTrainingDate >= current_date).order_by(
+        asc(SpecificTimeTraining.specificTimeTrainingDate)).all()
+
+    map={}
+    for i in filtered_schedules:
+        if i.specificTimeTrainingDate not in map.keys():
+            map[i.specificTimeTrainingDate]=[]
+        else:
+            map[i.specificTimeTrainingDate].append(i)
+    for key in map.keys():
+        print(key)
+    for i in map.keys():
+        map[i] =  sorted(map[i], key=lambda obj: obj.startTime)
+    
+    for i in map:
+        print("-------------------")
+        print(f"date = {i}")
+        print("-------------------")
+        for j in map[i]:
+            print(j.startTime)
+
+    trainers_map={}
+    trainers = Trainer.query.all()
+    for trainer in trainers:
+        trainers_map[trainer.trainerID] = trainer
+
+    trainings_map={}
+    trainings = Training.query.all()
+    for training in trainings:
+        trainings_map[training.trainingID] = training
+
+    return render_template("schedule.html",schedule_map=map, trainers=trainers_map, trainings=trainings_map)
 
 
 if __name__ == '__main__':
