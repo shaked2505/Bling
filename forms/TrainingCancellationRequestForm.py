@@ -5,7 +5,7 @@ from app import db
 
 class TrainingCancellationRequestForm(db.Model):
     requestID = db.Column(db.Integer, primary_key=True)
-    traineeID = db.Column(db.Integer, db.ForeignKey('trainee.traineeID'))
+    traineeID = db.Column(db.String(9), db.ForeignKey('trainee.traineeID'))
     trainee = db.relationship('Trainee', foreign_keys=[traineeID])
     trainingID = db.Column(db.Integer)
     specificTimeTrainingDate = db.Column(db.Date)

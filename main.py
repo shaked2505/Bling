@@ -23,10 +23,6 @@ def home():
 def login():
     return render_template("home.html")
 
-@application.route("/membershipCan")
-def member():
-    return render_template("membershipCan.html")
-
 @application.route("/create_records")
 def create_records():
     ad_db.create_Trainings()

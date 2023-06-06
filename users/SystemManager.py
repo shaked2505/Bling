@@ -2,8 +2,7 @@ from app import db
 
 class SystemManager(db.Model):
     __tablename__ = 'system_manager'
-
-    managerID = db.Column(db.Integer, primary_key=True)
+    managerID = db.Column(db.String(9), primary_key=True)
     managerFullName = db.Column(db.String)
     bankAccount = db.Column(db.String)
     email = db.Column(db.String)

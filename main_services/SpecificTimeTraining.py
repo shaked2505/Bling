@@ -7,9 +7,9 @@ class SpecificTimeTraining(db.Model):
     training = db.relationship('Training', foreign_keys=[trainingID])
     startTime = db.Column(db.Time)
     endTime = db.Column(db.Time)
-    standByTrainer= db.Column(db.Integer,db.ForeignKey('trainer.trainerID') ) 
+    standByTrainer= db.Column(db.String(9),db.ForeignKey('trainer.trainerID') ) 
     stand_by_trainer = db.relationship('Trainer', foreign_keys=[standByTrainer], uselist=False)
-    trainerID= db.Column(db.Integer,db.ForeignKey('trainer.trainerID') ) 
+    trainerID= db.Column(db.String(9),db.ForeignKey('trainer.trainerID') ) 
     trainer = db.relationship('Trainer', foreign_keys=[trainerID], uselist=False)
 
     def __init__(self, specificTimeTrainingDate, trainingID, startTime, endTime, standByTrainer, trainerID):

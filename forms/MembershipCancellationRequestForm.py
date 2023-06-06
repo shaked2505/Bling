@@ -3,7 +3,7 @@ import datetime
 
 class MembershipCancellationRequestForm(db.Model):
     requestID = db.Column(db.Integer, primary_key=True)
-    traineeID = db.Column(db.Integer, db.ForeignKey('trainee.traineeID'))
+    traineeID = db.Column(db.String(9), db.ForeignKey('trainee.traineeID'))
     trainee = db.relationship('Trainee', foreign_keys=[traineeID])
     membershipID = db.Column(db.Integer, db.ForeignKey('membership_plan.membershipID'))
     Membership_plan = db.relationship('MembershipPlan', foreign_keys=[membershipID])
