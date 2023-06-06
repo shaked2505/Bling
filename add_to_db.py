@@ -84,23 +84,23 @@ def create_SpecificTimeTraining():
     write_to_db(SpecificTimeTraining(str(date(2023, 6, 9)), 3, str(time(10, 00)), str(time(11, 00)), "550000000", "880000000"))
 
 def create_MembershipCancellationRequestForm():
-    write_to_db(MembershipCancellationRequestForm(11, "100100000", 4, 'Too expensive' ,  str(date(2023, 4,12)), 'Declined'))
-    write_to_db(MembershipCancellationRequestForm(12, "100200000", 12, 'Arriving difficulties', str(date(2023, 4,28)), ' Declined'))
-    write_to_db(MembershipCancellationRequestForm(13, "100300000", 80, 'Schedule difficulties', str(date(2023, 4,15)), 'In Process'))
+    write_to_db(MembershipCancellationRequestForm("100100000", 4, 'Too expensive' ,  str(date(2023, 4,12)), 'Declined'))
+    write_to_db(MembershipCancellationRequestForm("100200000", 12, 'Arriving difficulties', str(date(2023, 4,28)), ' Declined'))
+    write_to_db(MembershipCancellationRequestForm("100300000", 80, 'Schedule difficulties', str(date(2023, 4,15)), 'In Process'))
 
 def create_TrainingRegistrationForm():
-    write_to_db(TrainingRegistrationForm(111, "100000000", 1, 'Approved', str(date(2023, 6 ,4)), str(date(2023, 5 ,18)))) 
-    write_to_db(TrainingRegistrationForm(112, "100100000", 3, 'Approved', str(date(2023, 6, 5)), str(date(2023, 3, 1))))
-    write_to_db(TrainingRegistrationForm(113, "100300000", 2, 'Approved', str(date(2023, 6, 6)), str(date(2023, 5, 8))))
-    write_to_db(TrainingRegistrationForm(114, "100400000", 4, 'Approved', str(date(2023, 6, 4)), str(date(2023, 4, 10))))
-    write_to_db(TrainingRegistrationForm(115, "100200000", 1, 'Approved', str(date(2023, 6, 8)) ,str(date(2023, 5, 18))))
+    write_to_db(TrainingRegistrationForm("100000000", 1, 'Approved', str(date(2023, 6 ,4)), str(date(2023, 5 ,18))))
+    write_to_db(TrainingRegistrationForm("100100000", 3, 'Approved', str(date(2023, 6, 5)), str(date(2023, 3, 1))))
+    write_to_db(TrainingRegistrationForm("100300000", 2, 'Approved', str(date(2023, 6, 6)), str(date(2023, 5, 8))))
+    write_to_db(TrainingRegistrationForm("100400000", 4, 'Approved', str(date(2023, 6, 4)), str(date(2023, 4, 10))))
+    write_to_db(TrainingRegistrationForm("100200000", 1, 'Approved', str(date(2023, 6, 8)) ,str(date(2023, 5, 18))))
 
 def create_TrainingCancellationRequestForm():
-    write_to_db(TrainingCancellationRequestForm( 220, "100000000", 'Timetable constraints ' , 'Approved', str(date(2023, 6,8)),2 ,str(date(2023, 5,9))))
-    write_to_db(TrainingCancellationRequestForm( 221, "100100000", 'Health conditions' , 'Approved',  str(date(2023,6, 4)), 1 , str(date(2023,5, 19)))) 
-    write_to_db(TrainingCancellationRequestForm( 222, "100000000", 'Timetable constraints ' , 'Approved',  str(date(2023,6, 5)), 1 , str(date(2023,5, 19)))) 
-    write_to_db(TrainingCancellationRequestForm( 223, "100400000", 'Timetable constraints ' , 'Approved',  str(date(2023,6,4)), 1 ,str(date(2023,5,19)))) 
-    write_to_db(TrainingCancellationRequestForm( 224, "100200000", 'Health conditions' , 'Approved',  str(date(2023, 6, 7)), 2, str(date(2023, 5, 9))))  
+    write_to_db(TrainingCancellationRequestForm("100000000", 'Timetable constraints ' , 'Approved', str(date(2023, 6,8)),2 ,str(date(2023, 5,9))))
+    write_to_db(TrainingCancellationRequestForm("100100000", 'Health conditions' , 'Approved',  str(date(2023,6, 4)), 1 , str(date(2023,5, 19)))) 
+    write_to_db(TrainingCancellationRequestForm("100000000", 'Timetable constraints ' , 'Approved',  str(date(2023,6, 5)), 1 , str(date(2023,5, 19)))) 
+    write_to_db(TrainingCancellationRequestForm("100400000", 'Timetable constraints ' , 'Approved',  str(date(2023,6,4)), 1 ,str(date(2023,5,19)))) 
+    write_to_db(TrainingCancellationRequestForm("100200000", 'Health conditions' , 'Approved',  str(date(2023, 6, 7)), 2, str(date(2023, 5, 9))))  
 
 def create_BrandedMerchandise():
     write_to_db(BrandedMerchandise( 300, 50.00 , 20 ,'Water Bottle', 'Stainless steel bottle, contains 500 ml' ,"111100000"))

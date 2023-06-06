@@ -4,7 +4,7 @@ from main_services.SpecificTimeTraining import SpecificTimeTraining
 from app import db
 
 class TrainingCancellationRequestForm(db.Model):
-    requestID = db.Column(db.Integer, primary_key=True)
+    requestID = db.Column(db.Integer, primary_key=True, autoincrement=True)
     traineeID = db.Column(db.String(9), db.ForeignKey('trainee.traineeID'))
     trainee = db.relationship('Trainee', foreign_keys=[traineeID])
     trainingID = db.Column(db.Integer)
@@ -18,8 +18,7 @@ class TrainingCancellationRequestForm(db.Model):
     approvalStatus = db.Column(db.String)
 
     # Create initializer/constructor
-    def __init__(self, requestID, traineeID, reason, approvalStatus, specificTimeTrainingDate, trainingID, requestDate=datetime.date.today()):
-        self.requestID = requestID
+    def __init__(self, traineeID, reason, approvalStatus, specificTimeTrainingDate, trainingID, requestDate=datetime.date.today()):
         self.traineeID = traineeID
         self.trainingID = trainingID
         self.specificTimeTrainingDate = specificTimeTrainingDate
