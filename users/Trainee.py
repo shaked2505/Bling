@@ -2,7 +2,7 @@ from app import db
 import datetime
 
 class Trainee(db.Model):
-    traineeID = db.Column(db.Integer, primary_key=True)
+    traineeID = db.Column(db.String(9), primary_key=True)
     traineeFullName = db.Column(db.String)
     bankAccount = db.Column(db.String)
     joiningDate = db.Column(db.Date)

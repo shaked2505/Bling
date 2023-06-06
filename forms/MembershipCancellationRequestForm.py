@@ -2,8 +2,8 @@ from app import db
 import datetime
 
 class MembershipCancellationRequestForm(db.Model):
-    requestID = db.Column(db.Integer, primary_key=True)
-    traineeID = db.Column(db.Integer, db.ForeignKey('trainee.traineeID'))
+    requestID = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    traineeID = db.Column(db.String(9), db.ForeignKey('trainee.traineeID'))
     trainee = db.relationship('Trainee', foreign_keys=[traineeID])
     membershipID = db.Column(db.Integer, db.ForeignKey('membership_plan.membershipID'))
     Membership_plan = db.relationship('MembershipPlan', foreign_keys=[membershipID])
@@ -12,8 +12,7 @@ class MembershipCancellationRequestForm(db.Model):
     approvalStatus = db.Column(db.String)
 
     # Create initializer/constructor
-    def __init__(self, requestID, traineeID, membershipID, reason, requestDate,approvalStatus):
-        self.requestID = requestID
+    def __init__(self, traineeID, membershipID, reason, requestDate,approvalStatus):
         self.traineeID = traineeID
         self.membershipID = membershipID
         self.reason = reason

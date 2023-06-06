@@ -23,10 +23,6 @@ def home():
 def login():
     return render_template("home.html")
 
-@application.route("/membershipCan")
-def member():
-    return render_template("membershipCan.html")
-
 @application.route("/create_records")
 def create_records():
     ad_db.create_Trainings()
@@ -35,11 +31,11 @@ def create_records():
     ad_db.create_Trainer()
     ad_db.create_BrandedMerchandise()
     ad_db.create_Trainee()
-    ad_db.create_MembershipCancellationRequestForm()
     ad_db.create_Payment()
     ad_db.create_SpecificTimeTraining()
-    ad_db.create_TrainingRegistrationForm()
-    ad_db.create_TrainingCancellationRequestForm()
+    # ad_db.create_MembershipCancellationRequestForm()
+    # ad_db.create_TrainingRegistrationForm()
+    # ad_db.create_TrainingCancellationRequestForm()
     return render_template("test.html")
 
 @application.route("/schedule")

@@ -23,6 +23,20 @@ body {
     align-items: center; /* Center the logo */
   }
 
+
+  .form-container-table {
+    width: 100%;
+    height: 95%;
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-top: 50px; /* Adjust the margin-top value as needed */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center the logo */
+  }
+
   h1 {
     font-size: 36px;
     margin-bottom: 10px;

@@ -7,7 +7,7 @@ class Payment(db.Model):
     amount = db.Column(db.Float)
     dateOfPayment = db.Column(db.Date)
     paymentStatus = db.Column(db.String)
-    traineeID = db.Column(db.Integer, db.ForeignKey('trainee.traineeID'))
+    traineeID = db.Column(db.String(9), db.ForeignKey('trainee.traineeID'))
     trainee = db.relationship('Trainee', foreign_keys=[traineeID])
     membershipID =db.Column (db.Integer, db.ForeignKey('membership_plan.membershipID'))
     membership_plan = db.relationship('MembershipPlan', foreign_keys=[membershipID])
