@@ -4,6 +4,11 @@ body {
     background-color: #ccc;
   }
 
+  .schedule-date-color {
+    background-color: darkslategray;
+    color: white;
+  }
+
   .container {
     display: flex;
     justify-content: center;

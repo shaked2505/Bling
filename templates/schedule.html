@@ -1,79 +1,124 @@
 <!DOCTYPE html>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
 <html>
 <head>
-<link rel="stylesheet" href="static/css/membershipCan.css">
-  <title>Membership Cancellation Request</title>
-
+  <title>Schedule Training</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+  <link rel="stylesheet" href="static/css/membershipCan.css">
 </head>
 <body>
   <div class="container">
     <div class="form-container-table">
       <h1>Schedule Training</h1>
-      <table class="table">
-        <thead class="thead-dark">
-          <tr>
-          <th scope="col">Time</th>
-          <th scope="col">Workout Type</th>
-          <th scope="col">Trainer</th>
-          <th scope="col">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-          <th scope="row">1</th>
-          <td>Mark</td>
-          <td>Otto</td>
-          <td><button type="button" class="btn btn-info">schedule</button></td>
-          </tr>
-          <tr>
-          <th scope="row">2</th>
-          <td>Jacob</td>
-          <td>Thornton</td>
-          <td><button type="button" class="btn btn-info">schedule</button></td>
-          </tr>
-          <tr>
-          <th scope="row">3</th>
-          <td>Larry</td>
-          <td>the Bird</td>
-          <td><button type="button" class="btn btn-info">schedule</button></td>
-          </tr>
-        </tbody>
-        </table>
-        
+        {% for date in schedule_map.keys() %}
         <table class="table">
-        <thead class="thead-light">
-          <tr>
-            <th scope="col">Time</th>
-            <th scope="col">Workout Type</th>
-            <th scope="col">Trainer</th>
-            <th scope="col">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-          <th scope="row">1</th>
-          <td>Mark</td>
-          <td>Otto</td>
-          <td><button type="button" class="btn btn-info">schedule</button></td>
-          </tr>
-          <tr>
-          <th scope="row">2</th>
-          <td>Jacob</td>
-          <td>Thornton</td>
-          <td><button type="button" class="btn btn-info">schedule</button></td>
-          </tr>
-          <tr>
-          <th scope="row">3</th>
-          <td>Larry</td>
-          <td>the Bird</td>
-          <td><button type="button" class="btn btn-info">schedule</button></td>
-          </tr>
-        </tbody>
+          <thead class="schedule-date-color">
+            <tr>
+              <th scope="col"></th>
+              <th scope="col"></th>
+              <th scope="col">{{ date.strftime("%d/%m/%Y") }}</th>
+              <th scope="col"></th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <thead class="thead-light">
+            <tr>
+              <th scope="col">Start Time</th>
+              <th scope="col">End Time</th>
+              <th scope="col">Workout Type</th>
+              <th scope="col">Trainer</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for schedule in schedule_map[date] %}
+            <tr>
+              <td>{{ schedule.startTime.strftime("%H:%M") }}</td>
+              <td>{{ schedule.endTime.strftime("%H:%M") }}</td>
+              <td>{{ trainings[schedule.trainingID].trainingType }}</td>
+              <td>{{ trainers[schedule.trainerID].trainerFullName }}</td>
+              <td>
+                <a class="btn border-shadow update btn-info p-2" role="button" aria-pressed="true" data-bs-toggle="modal" data-bs-target="#createModal">
+                  Schedule
+                </a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
         </table>
+        {% endfor %}
+        <div class="modal" id="createModal">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <!-- Modal Header -->
+              <div class="modal-header">
+                <h4 class="modal-title">Add New Location</h4>
+                <button type="button" onClick="clean_modal(this)" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+              <!-- Modal body -->
+              <div class="modal-body">
+                <form method="POST" action="/api/coords">
+                  <div class="modal-body">  
+                    <div class="form-group">
+                      <label for="locationName" class="text-dark w-25">Location Name</label>
+                      <input type="text" class="w-50" name="locationName" placeholder="ie: Bits of Gold" required>
+                    </div>
+                    <div class="form-group">
+                      <label for="latitude" class="text-dark w-25">Latitude</label>
+                      <input type="number" step="any" class="w-50" name="latitude" onkeyup="return validateLatitude(this)" placeholder="32.45454" required>
+                    </div>
+                    <div class="form-group">
+                      <label for="longitude" class="text-dark w-25">Longitude</label>
+                      <input type="number" step="any" class="w-50" name="longitude" onkeyup="return validateLongitude(this)" placeholder="21.456432" required>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <div class="form-group">
+                      <button type="Create" class="btn btn-success create">Create</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal" id="editModal">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <!-- Modal Header -->
+              <div class="modal-header">
+                <h4 class="modal-title">Edit</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+              <!-- Modal body -->
+              <div class="modal-body">
+                <form method="POST" id="update_coord">
+                  <div class="modal-body">  
+                    <div class="form-group">
+                      <label for="locationName" class="text-dark w-25">Location Name</label>
+                      <input type="hidden" name="id">
+                      <input type="text" class="w-50" name="locationName" placeholder="ie: Bits of Gold" required>
+                    </div>
+                    <div class="form-group">
+                      <label for="number" class="text-dark w-25">Latitude</label>
+                      <input type="number" step="any" class="w-50" name="latitude" onkeyup="return validateLatitude(this)" placeholder="32.45454" required>
+                    </div>
+                    <div class="form-group">
+                      <label for="longitude" class="text-dark w-25">Longitude</label>
+                      <input type="number" step="any" class="w-50" name="longitude" onkeyup="return validateLongitude(this)" placeholder="21.456432" required>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <div class="form-group">
+                      <button type="Update" class="btn btn-danger update">Save</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
     </div>
   </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-
