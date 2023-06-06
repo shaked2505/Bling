@@ -17,11 +17,16 @@ import add_to_db as ad_db
 from sqlalchemy import asc
 
 @application.route("/")
-def home():
+def login():
     return render_template("login.html")
 
+@application.route("/can")
+def can():
+    return render_template("membershipCan.html")
+
+
 @application.route("/home")
-def login():
+def home():
     return render_template("home.html")
 
 @application.route("/create_records")
