@@ -9,4 +9,5 @@ application.config['SQLALCHEMY_DATABASE_URI'] = "mssql+pyodbc:///?odbc_connect=%
 application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 application.config['SQLALCHEMY_ECHO'] = True
 application.config["TEMPLATES_AUTO_RELOAD"] = True 
+application.secret_key = '123456789'
 db = SQLAlchemy(application)

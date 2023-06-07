@@ -1,7 +1,8 @@
 from app import db
+from flask_login import UserMixin
 import datetime
 
-class Trainee(db.Model):
+class Trainee(UserMixin, db.Model):
     traineeID = db.Column(db.String(9), primary_key=True)
     traineeFullName = db.Column(db.String)
     bankAccount = db.Column(db.String)
@@ -25,3 +26,6 @@ class Trainee(db.Model):
         self.membershipID = membershipID
         self.loginDetails = loginDetails
         self.recruitedBy = recruitedBy
+
+    def get_id(self):
+        return self.traineeID
