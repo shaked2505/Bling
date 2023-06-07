@@ -1,5 +1,6 @@
 from datetime import date
-from flask import render_template
+from flask import render_template, request, redirect, url_for
+from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from app import db, application
 from users.Trainer import Trainer
 from users.Trainee import Trainee
@@ -14,18 +15,47 @@ from forms.MembershipCancellationRequestForm import MembershipCancellationReques
 from forms.TrainingCancellationRequestForm import TrainingCancellationRequestForm
 from forms.TrainingRegistrationForm import TrainingRegistrationForm
 import add_to_db as ad_db
+from sqlalchemy import asc
 
-@application.route("/")
-def home():
-    return render_template("login.html")
+
+login_manager = LoginManager()
+login_manager.init_app(application)
+
+def is_admin():
+    user = current_user._get_current_object()
+    if type(user) == SystemManager:
+        return True
+    else:
+        return False
+
+
+@application.route('/', methods=['GET', 'POST'])
+def login():
+    error=""
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        
+        user = Trainee.query.filter_by(traineeID=username).first()
+        if not user:
+            user = SystemManager.query.filter_by(managerID=username).first()
+        if user is not None and user.loginDetails == password:
+            login_user(user)  # Create a session for the user
+            return redirect(url_for('home'))
+        else:
+            error = "Invalied Username/Password"
+    return render_template('login.html',error=error)
 
 @application.route("/home")
-def login():
-    return render_template("home.html")
+@login_required
+def home():
+    return render_template("home.html", is_admin=is_admin())
 
-@application.route("/membershipCan")
-def member():
-    return render_template("membershipCan.html")
+@application.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('login'))
 
 @application.route("/trainingReg")
 def trainingReg():
@@ -39,25 +69,67 @@ def create_records():
     ad_db.create_Trainer()
     ad_db.create_BrandedMerchandise()
     ad_db.create_Trainee()
-    ad_db.create_MembershipCancellationRequestForm()
     ad_db.create_Payment()
     ad_db.create_SpecificTimeTraining()
-    ad_db.create_TrainingRegistrationForm()
-    ad_db.create_TrainingCancellationRequestForm()
+    #ad_db.create_MembershipCancellationRequestForm()
+    #ad_db.create_TrainingRegistrationForm()
+    #ad_db.create_TrainingCancellationRequestForm()
     return render_template("test.html")
 
 @application.route("/schedule")
+@login_required
 def schedule():
     current_date = datetime.now().date()
 
-    # Calculate the start and end dates of the current week
-    start_of_week = current_date - timedelta(days=current_date.weekday())
-    end_of_week = start_of_week + timedelta(days=6)
-    time_schedules = Trainer.query.all()
-    # time_schedules = SpecificTimeTraining.query.filter(SpecificTimeTraining.specificTimeTrainingDate.between(start_of_week, end_of_week)).all()
-    print(f"test {time_schedules}")
-    return render_template("schedule.html")
+    # Filter objects based on the current date and time
+    filtered_schedules = SpecificTimeTraining.query.filter(
+        SpecificTimeTraining.specificTimeTrainingDate >= current_date).order_by(
+        asc(SpecificTimeTraining.specificTimeTrainingDate)).all()
 
+    map={}
+    for i in filtered_schedules:
+        if i.specificTimeTrainingDate not in map.keys():
+            map[i.specificTimeTrainingDate]=[i]
+        else:
+            map[i.specificTimeTrainingDate].append(i)
+    for i in map.keys():
+        map[i] =  sorted(map[i], key=lambda obj: obj.startTime)
+    
+    for i in map:
+        print("-------------------")
+        print(f"date = {i}")
+        print("-------------------")
+        for j in map[i]:
+            print(j.startTime)
+
+    trainers_map={}
+    trainers = Trainer.query.all()
+    for trainer in trainers:
+        trainers_map[trainer.trainerID] = trainer
+
+    trainings_map={}
+    trainings = Training.query.all()
+    for training in trainings:
+        trainings_map[training.trainingID] = training
+    
+    admin = is_admin()
+    registers_map={}
+    if not admin:
+        traineeID = current_user._get_current_object().traineeID
+        registers = TrainingRegistrationForm.query.filter(
+            TrainingRegistrationForm.traineeID == traineeID).all()
+        for register in registers:
+            registers_map[f"{register.trainingID}/{register.specificTimeTrainingDate}"] = register
+
+    return render_template("schedule.html",schedule_map=map, trainers=trainers_map, trainings=trainings_map, is_admin=admin, registers = registers_map)
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    user = Trainee.query.get(user_id)
+    if not user:
+        user = SystemManager.query.get(user_id)
+    return user
 
 if __name__ == '__main__':
     with application.app_context():

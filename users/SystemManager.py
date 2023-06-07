@@ -1,9 +1,9 @@
 from app import db
+from flask_login import UserMixin
 
-class SystemManager(db.Model):
+class SystemManager(UserMixin, db.Model):
     __tablename__ = 'system_manager'
-
-    managerID = db.Column(db.Integer, primary_key=True)
+    managerID = db.Column(db.String(9), primary_key=True)
     managerFullName = db.Column(db.String)
     bankAccount = db.Column(db.String)
     email = db.Column(db.String)
@@ -19,7 +19,8 @@ class SystemManager(db.Model):
         self.phoneNumber = phoneNumber
         self.loginDetails = loginDetails
 
-
+    def get_id(self):
+        return self.managerID
 # class SystemManager:
 #     def __init__(self):
 #         self.managerID = 0

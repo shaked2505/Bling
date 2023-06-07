@@ -4,8 +4,8 @@ from main_services.SpecificTimeTraining import SpecificTimeTraining
 from app import db
 
 class TrainingRegistrationForm(db.Model):
-    registrationID = db.Column(db.Integer, primary_key=True)
-    traineeID = db.Column(db.Integer, db.ForeignKey('trainee.traineeID'))
+    registrationID = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    traineeID = db.Column(db.String(9), db.ForeignKey('trainee.traineeID'))
     trainee = db.relationship('Trainee', foreign_keys=[traineeID])
     trainingID = db.Column(db.Integer)
     specificTimeTrainingDate = db.Column(db.Date)
@@ -16,8 +16,7 @@ class TrainingRegistrationForm(db.Model):
     approvalStatus = db.Column(db.String)
 
     # Create initializer/constructor
-    def __init__(self, registrationID, traineeID,trainingID, approvalStatus, specificTimeTrainingDate, requestDate=datetime.date.today()):
-        self.registrationID = registrationID
+    def __init__(self, traineeID,trainingID, approvalStatus, specificTimeTrainingDate, requestDate=datetime.date.today()):
         self.traineeID = traineeID
         self.trainingID = trainingID
         self.specificTimeTrainingDate = specificTimeTrainingDate
