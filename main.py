@@ -36,7 +36,6 @@ def login():
         username = request.form['username']
         password = request.form['password']
         
-        
         user = Trainee.query.filter_by(traineeID=username).first()
         if not user:
             user = SystemManager.query.filter_by(managerID=username).first()
