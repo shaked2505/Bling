@@ -1,229 +1,87 @@
-html * {
-   font-family: Arial !important;
- }
- 
- body {
-   margin-top: 20px;
-   display: flex;
-   justify-content: center;
-   align-items: center;
- }
- 
- .schedule-table {
-   width: 90%;
-   max-width: 90%;
- }
- 
- .schedule-table table {
-   width: 100%;
- }
- 
- .schedule-table table thead tr {
-   background: #744a94;
- }
- 
- .schedule-table table thead th {
-   padding: 25px 50px;
-   color: #fff;
-   text-align: center;
-   font-size: 20px;
-   font-weight: 800;
-   position: relative;
-   border: 0;
- }
- 
- .schedule-table table thead th:before {
-   content: "";
-   width: 3px;
-   height: 35px;
-   background: rgba(255, 255, 255, 0.2);
-   position: absolute;
-   right: -1px;
-   top: 50%;
-   transform: translateY(-50%);
- }
- 
- .schedule-table table thead th.last:before {
-   content: none;
- }
- 
- .schedule-table table tbody td {
-   vertical-align: middle;
-   border: 1px solid #e2edf8;
-   font-weight: 500;
-   padding: 30px;
-   text-align: center;
- }
- 
- .schedule-table table tbody td.day {
-   font-size: 22px;
-   font-weight: 600;
-   background: #f0f1f3;
-   border: 1px solid #e4e4e4;
-   position: relative;
-   transition: all 0.3s linear 0s;
-   min-width: 165px;
- }
- 
- .schedule-table table tbody td.active {
-   position: relative;
-   z-index: 10;
-   transition: all 0.3s linear 0s;
-   min-width: 165px;
- }
- 
- .schedule-table table tbody td.active h4 {
-   font-weight: 700;
-   color: #000;
-   font-size: 20px;
-   margin-bottom: 5px;
- }
- 
- .schedule-table table tbody td.active p {
-   font-size: 16px;
-   line-height: normal;
-   margin-bottom: 0;
- }
- 
- .schedule-table table tbody td .hover h4 {
-   font-weight: 700;
-   font-size: 20px;
-   color: #ffffff;
-   margin-bottom: 5px;
- }
- 
- .schedule-table table tbody td .hover p {
-   font-size: 16px;
-   margin-bottom: 5px;
-   color: #ffffff;
-   line-height: normal;
- }
- 
- .schedule-table table tbody td .hover span {
-   color: #ffffff;
-   font-weight: 600;
-   font-size: 18px;
- }
- 
- .schedule-table table tbody td.active::before {
-   position: absolute;
-   content: "";
-   min-width: 100%;
-   min-height: 100%;
-   transform: scale(0);
-   top: 0;
-   left: 0;
-   z-index: -1;
-   border-radius: 0.25rem;
-   transition: all 0.3s linear 0s;
- }
- 
- .schedule-table table tbody td .hover {
-   position: absolute;
-   left: 50%;
-   top: 50%;
-   width: 120%;
-   height: 120%;
-   transform: translate(-50%, -50%) scale(0.8);
-   z-index: 99;
-   background: #a19ac7;
-   border-radius: 0.25rem;
-   padding: 25px 0;
-   visibility: hidden;
-   opacity: 0;
-   transition: all 0.3s linear 0s;
- }
- 
- .schedule-table table tbody td.active:hover .hover {
-   transform: translate(-50%, -50%) scale(1);
-   visibility: visible;
-   opacity: 1;
- }
- 
- .schedule-table table tbody td.day {
-   background: #dadcdd;
-   color: #000000;
-   border: 1px solid #dadcdd;
- }
- 
- @media screen and (max-width: 1199px) {
-   .schedule-table table thead th {
-     padding: 25px 40px;
-   }
- 
-   .schedule-table table tbody td {
-     padding: 20px;
-   }
- 
-   .schedule-table table tbody td.active h4 {
-     font-size: 18px;
-   }
- 
-   .schedule-table table tbody td.active p {
-     font-size: 15px;
-   }
- 
-   .schedule-table table tbody td.day {
-     font-size: 20px;
-   }
- 
-   .schedule-table table tbody td .hover {
-     padding: 15px 0;
-   }
- 
-   .schedule-table table tbody td .hover span {
-     font-size: 17px;
-   }
- }
- 
- @media screen and (max-width: 991px) {
-   .schedule-table table thead th {
-     font-size: 18px;
-     padding: 20px;
-   }
- 
-   .schedule-table table tbody td.day {
-     font-size: 18px;
-   }
- 
-   .schedule-table table tbody td.active h4 {
-     font-size: 17px;
-   }
- }
- 
- @media screen and (max-width: 767px) {
-   .schedule-table table thead th {
-     padding: 15px;
-   }
- 
-   .schedule-table table tbody td {
-     padding: 15px;
-   }
- 
-   .schedule-table table tbody td.active h4 {
-     font-size: 16px;
-   }
- 
-   .schedule-table table tbody td.active p {
-     font-size: 14px;
-   }
- 
-   .schedule-table table tbody td .hover {
-     padding: 10px 0;
-   }
- 
-   .schedule-table table tbody td.day {
-     font-size: 18px;
-   }
- 
-   .schedule-table table tbody td .hover span {
-     font-size: 15px;
-   }
- }
- 
- @media screen and (max-width: 575px) {
-   .schedule-table table tbody td.day {
-     min-width: 135px;
-   }
- }
- 
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.2;
+  background-color: #ccc;
+}
+
+.schedule-date-color {
+  background-color: darkslategray;
+  color: white;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* Align items at the top */
+  min-height: 100vh; /* Set a minimum height to ensure the white block expands */
+}
+
+.form-container {
+  width: fit-content; /* Adjust the width to fit the table content */
+  height: fit-content; /* Adjust the height to fit the table content */
+  padding: 30px;
+  background-color: #ffffff;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin-top: 50px; /* Adjust the margin-top value as needed */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center the content */
+}
+
+.form-container-table {
+  width: 100%; /* Set the width to 100% to fill the available space */
+  height: fit-content; /* Adjust the height to fit the table content */
+  padding: 30px;
+  background-color: #ffffff;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin-top: 50px; /* Adjust the margin-top value as needed */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center the content */
+}
+
+
+h1 {
+  font-size: 36px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+img {
+  width: 140px;
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+input[type="text"],
+input[type="date"],
+textarea {
+  width: 100%;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+}
+
+input[type="submit"] {
+  background-color: #bab9b9;
+  color: #080000;
+  padding: 10px 20px;
+  text-decoration: none;
+  font-size: 16px;
+  border-radius: 5px;
+  margin-top: 20px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+}
+
+input[type="submit"]:hover {
+  background-color: #a395d6;
+}
