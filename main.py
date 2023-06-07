@@ -1,6 +1,6 @@
 from datetime import date
 from flask import render_template, request, redirect, url_for
-from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
+from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from app import db, application
 from users.Trainer import Trainer
 from users.Trainee import Trainee
@@ -23,6 +23,7 @@ login_manager.init_app(application)
 
 @application.route('/', methods=['GET', 'POST'])
 def login():
+    error=""
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
@@ -31,7 +32,9 @@ def login():
         if user is not None and user.loginDetails == password:
             login_user(user)  # Create a session for the user
             return redirect(url_for('home'))
-    return render_template('login.html')
+        else:
+            error = "Invalied Username/Password"
+    return render_template('login.html',error=error)
 
 @application.route("/home")
 @login_required
