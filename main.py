@@ -108,8 +108,17 @@ def schedule():
     trainings = Training.query.all()
     for training in trainings:
         trainings_map[training.trainingID] = training
+    
+    admin = is_admin()
+    registers_map={}
+    if not admin:
+        traineeID = current_user._get_current_object().traineeID
+        registers = TrainingRegistrationForm.query.filter(
+            TrainingRegistrationForm.traineeID == traineeID).all()
+        for register in registers:
+            registers_map[f"{register.trainingID}/{register.specificTimeTrainingDate}"] = register
 
-    return render_template("schedule.html",schedule_map=map, trainers=trainers_map, trainings=trainings_map)
+    return render_template("schedule.html",schedule_map=map, trainers=trainers_map, trainings=trainings_map, is_admin=admin, registers = registers_map)
 
 
 @login_manager.user_loader
