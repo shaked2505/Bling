@@ -12,6 +12,9 @@
       <ul>
         <li><a href="/home">Home</a></li>
         <li><a href="/logout" class="login-button">Logout</a></li>
+        {% if is_admin %}
+        <li><a href="/logout" class="login-button">admin</a></li>
+        {% endif %}
       </ul>
     </nav>
   </header>
@@ -26,9 +29,15 @@
   <section class="membership">
     <h2>Membership</h2>
     <p>If you are a studio member and wish to cancel your membership - please click here</p>
+    {% if is_admin %}
+    <a class="cancel-membership-button" role="button" aria-pressed="true">
+      Cancel Membership
+    </a>
+    {% else %}
     <a class="cancel-membership-button" role="button" aria-pressed="true" data-bs-toggle="modal" data-bs-target="#createModal">
       Cancel Membership
     </a>
+    {% endif %}
   </section>
   <div class="modal" id="createModal">
     <div class="modal-dialog">

@@ -21,14 +21,25 @@ from sqlalchemy import asc
 login_manager = LoginManager()
 login_manager.init_app(application)
 
+def is_admin():
+    user = current_user._get_current_object()
+    if type(user) == SystemManager:
+        return True
+    else:
+        return False
+
+
 @application.route('/', methods=['GET', 'POST'])
 def login():
     error=""
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-
+        
+        
         user = Trainee.query.filter_by(traineeID=username).first()
+        if not user:
+            user = SystemManager.query.filter_by(managerID=username).first()
         if user is not None and user.loginDetails == password:
             login_user(user)  # Create a session for the user
             return redirect(url_for('home'))
@@ -39,7 +50,7 @@ def login():
 @application.route("/home")
 @login_required
 def home():
-    return render_template("home.html")
+    return render_template("home.html", is_admin=is_admin())
 
 @application.route('/logout')
 @login_required
@@ -103,7 +114,10 @@ def schedule():
 
 @login_manager.user_loader
 def load_user(user_id):
-    return Trainee.query.get(user_id)
+    user = Trainee.query.get(user_id)
+    if not user:
+        user = SystemManager.query.get(user_id)
+    return user
 
 if __name__ == '__main__':
     with application.app_context():
