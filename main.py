@@ -157,6 +157,24 @@ def training_registration():
     db.session.commit()
     return redirect(url_for('schedule'))
 
+@application.route("/training-cancelation" , methods=['POST'])
+@login_required
+def training_cancelation():
+    trainingID = request.form['trainingID']
+    specificTimeTrainingDate = request.form['specificTimeTrainingDate']
+    reason = request.form['reason']
+    trainee = current_user._get_current_object()
+    obj=TrainingCancellationRequestForm(trainee.traineeID, reason, 'Approved', specificTimeTrainingDate, trainingID)
+    db.session.add(obj)
+    db.session.commit()
+    obj=TrainingRegistrationForm.query.filter(
+            TrainingRegistrationForm.traineeID == trainee.traineeID,
+            TrainingRegistrationForm.specificTimeTrainingDate == specificTimeTrainingDate, 
+            TrainingRegistrationForm.trainingID == trainingID).first()
+    db.session.delete(obj)
+    db.session.commit()
+    return redirect(url_for('schedule'))
+
 
 @login_manager.user_loader
 def load_user(user_id):
