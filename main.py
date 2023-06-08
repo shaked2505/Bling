@@ -50,7 +50,15 @@ def login():
 @login_required
 def home():
     user = current_user._get_current_object()
-    return render_template("home.html", is_admin=is_admin(),trainee=user)
+    admin = is_admin()
+    showCancelProcess = True
+    cancle = None
+    if not admin:
+        trainee = current_user._get_current_object()
+        cancle = MembershipCancellationRequestForm.query.filter_by(traineeID=trainee.traineeID).first()
+        if cancle:
+            showCancelProcess = False
+    return render_template("home.html", is_admin=admin, trainee=user, showCancelProcess=showCancelProcess, cancle=cancle )
 
 @application.route("/membership-cancellation" , methods=['POST'])
 @login_required

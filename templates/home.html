@@ -26,16 +26,21 @@
     </div>
   </section>
 
+  
   <section class="membership">
-    <p>If you are a studio member and wish to cancel your membership - please click here</p>
-    {% if is_admin %}
-    <a class="cancel-membership-button" role="button" aria-pressed="true">
-      Cancel Membership
-    </a>
+    {% if showCancelProcess %}
+      <p>If you are a studio member and wish to cancel your membership - please click here</p>
+      {% if is_admin %}
+      <a class="cancel-membership-button" role="button" aria-pressed="true">
+        Cancel Membership
+      </a>
+      {% else %}
+      <a class="cancel-membership-button" role="button" aria-pressed="true" data-bs-toggle="modal" data-bs-target="#createModal">
+        Cancel Membership
+      </a>
+      {% endif %}
     {% else %}
-    <a class="cancel-membership-button" role="button" aria-pressed="true" data-bs-toggle="modal" data-bs-target="#createModal">
-      Cancel Membership
-    </a>
+    <p>Your Cancellation request is in process {{ cancle.approvalStatus }}</p>
     {% endif %}
   </section>
   <div class="modal" id="createModal">
