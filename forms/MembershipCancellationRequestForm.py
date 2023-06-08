@@ -8,11 +8,11 @@ class MembershipCancellationRequestForm(db.Model):
     membershipID = db.Column(db.Integer, db.ForeignKey('membership_plan.membershipID'))
     Membership_plan = db.relationship('MembershipPlan', foreign_keys=[membershipID])
     reason = db.Column(db.String)
-    requestDate = db.Column(db.Date, default=datetime.date.today())
+    requestDate = db.Column(db.Date)
     approvalStatus = db.Column(db.String)
 
     # Create initializer/constructor
-    def __init__(self, traineeID, membershipID, reason, requestDate,approvalStatus):
+    def __init__(self, traineeID, membershipID, reason, approvalStatus, requestDate=datetime.date.today()):
         self.traineeID = traineeID
         self.membershipID = membershipID
         self.reason = reason

@@ -74,29 +74,32 @@
             <div class="modal-content">
               <!-- Modal Header -->
               <div class="modal-header">
-                <h4 class="modal-title">Training Registration Request</h4>
+                <h4 class="modal-title">Training Registration Request</h4><br><br>
                 <button type="button" onClick="clean_modal(this)" class="btn-close" data-bs-dismiss="modal"></button>
+               
               </div>
               <!-- Modal body -->
               <div class="modal-body">
                 <form method="POST" action="/api/coords">
                   <div class="modal-body">  
                     <div class="form-group">
-                      <label for="locationName" class="text-dark w-25">Location Name</label>
-                      <input type="text" class="w-50" name="locationName" placeholder="ie: Bits of Gold" required>
-                    </div>
-                    <div class="form-group">
-                      <label for="latitude" class="text-dark w-25">Latitude</label>
-                      <input type="number" step="any" class="w-50" name="latitude" onkeyup="return validateLatitude(this)" placeholder="32.45454" required>
-                    </div>
-                    <div class="form-group">
-                      <label for="longitude" class="text-dark w-25">Longitude</label>
-                      <input type="number" step="any" class="w-50" name="longitude" onkeyup="return validateLongitude(this)" placeholder="21.456432" required>
-                    </div>
-                  </div>
+                      <img src="static\images\logo.png" alt="Logo" >
+                      <input type="hidden" name="traineeID" id="traineeID" required>
+
+                      <input type="hidden" name="trainingID" id="trainingID" required>
+                      
+                      <input type="hidden" name="specificTimeTrainingDate" id="specificTimeTrainingDate" required>
+                      
+                      <input type="hidden" name="requestDate" id="requestDate" required>
+                      
+                      <input type="hidden" name="approvalStatus" id="approvalStatus" required>
+
+                      <h6>Please note- if you want to cancel the training, do it up to 24 hours before the workout.</h6>
+                      
+
                   <div class="modal-footer">
                     <div class="form-group">
-                      <button type="Create" class="btn btn-success create">Create</button>
+                      <button type="Create" class="btn btn-success create">Register</button>
                     </div>
                   </div>
                 </form>

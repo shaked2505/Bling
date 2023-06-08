@@ -49,7 +49,20 @@ def login():
 @application.route("/home")
 @login_required
 def home():
-    return render_template("home.html", is_admin=is_admin())
+    user = current_user._get_current_object()
+    return render_template("home.html", is_admin=is_admin(),trainee=user)
+
+@application.route("/membership-cancellation" , methods=['POST'])
+@login_required
+def membership_cancellation():
+    traineeID = request.form['traineeID']
+    membershipID = request.form['membershipID']
+    reason = request.form['reason']
+    approvalStatus = request.form['approvalStatus']
+    obj = MembershipCancellationRequestForm(traineeID, membershipID, reason, approvalStatus)
+    db.session.add(obj)
+    db.session.commit()
+    return redirect(url_for('home'))
 
 @application.route('/logout')
 @login_required
@@ -80,6 +93,7 @@ def create_records():
 @login_required
 def schedule():
     current_date = datetime.now().date()
+    
 
     # Filter objects based on the current date and time
     filtered_schedules = SpecificTimeTraining.query.filter(
