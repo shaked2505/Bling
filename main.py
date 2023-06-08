@@ -84,13 +84,13 @@ def trainingReg():
 
 @application.route("/create_records")
 def create_records():
-    ad_db.create_Trainings()
-    ad_db.create_SystemManager()
-    ad_db.create_MembershipPlan()
-    ad_db.create_Trainer()
-    ad_db.create_BrandedMerchandise()
-    ad_db.create_Trainee()
-    ad_db.create_Payment()
+    # ad_db.create_Trainings()
+    # ad_db.create_SystemManager()
+    # ad_db.create_MembershipPlan()
+    # ad_db.create_Trainer()
+    # ad_db.create_BrandedMerchandise()
+    # ad_db.create_Trainee()
+    # ad_db.create_Payment()
     ad_db.create_SpecificTimeTraining()
     #ad_db.create_MembershipCancellationRequestForm()
     #ad_db.create_TrainingRegistrationForm()
@@ -101,8 +101,7 @@ def create_records():
 @login_required
 def schedule():
     current_date = datetime.now().date()
-    
-
+    current_time = datetime.now().time()
     # Filter objects based on the current date and time
     filtered_schedules = SpecificTimeTraining.query.filter(
         SpecificTimeTraining.specificTimeTrainingDate >= current_date).order_by(
@@ -117,6 +116,12 @@ def schedule():
     for i in map.keys():
         map[i] =  sorted(map[i], key=lambda obj: obj.startTime)
     
+    if current_date in map.keys():
+        for i in range(len(map[current_date])-1, -1, -1):
+            print(i)
+            if map[current_date][i].startTime <= current_time:
+                map[current_date].pop(i)
+
     for i in map:
         print("-------------------")
         print(f"date = {i}")
