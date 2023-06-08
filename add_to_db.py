@@ -84,9 +84,9 @@ def create_SpecificTimeTraining():
     write_to_db(SpecificTimeTraining(str(date(2023, 6, 9)), 3, str(time(10, 00)), str(time(11, 00)), "550000000", "880000000"))
 
 def create_MembershipCancellationRequestForm():
-    write_to_db(MembershipCancellationRequestForm("100100000", 4, 'Too expensive' ,  str(date(2023, 4,12)), 'Declined'))
-    write_to_db(MembershipCancellationRequestForm("100200000", 12, 'Arriving difficulties', str(date(2023, 4,28)), ' Declined'))
-    write_to_db(MembershipCancellationRequestForm("100300000", 80, 'Schedule difficulties', str(date(2023, 4,15)), 'In Process'))
+    write_to_db(MembershipCancellationRequestForm("100100000", 4, 'Too expensive' , 'Declined',  str(date(2023, 4,12))))
+    write_to_db(MembershipCancellationRequestForm("100200000", 12, 'Arriving difficulties', ' Declined', str(date(2023, 4,28))))
+    write_to_db(MembershipCancellationRequestForm("100300000", 80, 'Schedule difficulties','In Process', str(date(2023, 4,15))))
 
 def create_TrainingRegistrationForm():
     write_to_db(TrainingRegistrationForm("100000000", 1, 'Approved', str(date(2023, 6 ,4)), str(date(2023, 5 ,18))))

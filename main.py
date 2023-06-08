@@ -15,7 +15,7 @@ from forms.MembershipCancellationRequestForm import MembershipCancellationReques
 from forms.TrainingCancellationRequestForm import TrainingCancellationRequestForm
 from forms.TrainingRegistrationForm import TrainingRegistrationForm
 import add_to_db as ad_db
-from sqlalchemy import asc
+from sqlalchemy import asc,func
 
 
 login_manager = LoginManager()
@@ -49,13 +49,38 @@ def login():
 @application.route("/home")
 @login_required
 def home():
-    return render_template("home.html", is_admin=is_admin())
+    user = current_user._get_current_object()
+    admin = is_admin()
+    showCancelProcess = True
+    cancle = None
+    if not admin:
+        trainee = current_user._get_current_object()
+        cancle = MembershipCancellationRequestForm.query.filter_by(traineeID=trainee.traineeID).first()
+        if cancle:
+            showCancelProcess = False   
+    return render_template("home.html", is_admin=admin, trainee=user, showCancelProcess=showCancelProcess, cancle=cancle )
+
+@application.route("/membership-cancellation" , methods=['POST'])
+@login_required
+def membership_cancellation():
+    traineeID = request.form['traineeID']
+    membershipID = request.form['membershipID']
+    reason = request.form['reason']
+    approvalStatus = request.form['approvalStatus']
+    obj = MembershipCancellationRequestForm(traineeID, membershipID, reason, approvalStatus)
+    db.session.add(obj)
+    db.session.commit()
+    return redirect(url_for('home'))
 
 @application.route('/logout')
 @login_required
 def logout():
     logout_user()
     return redirect(url_for('login'))
+
+@application.route("/trainingReg")
+def trainingReg():
+    return render_template("trainingReg.html")
 
 @application.route("/create_records")
 def create_records():
@@ -67,15 +92,16 @@ def create_records():
     ad_db.create_Trainee()
     ad_db.create_Payment()
     ad_db.create_SpecificTimeTraining()
-    # ad_db.create_MembershipCancellationRequestForm()
-    # ad_db.create_TrainingRegistrationForm()
-    # ad_db.create_TrainingCancellationRequestForm()
+    #ad_db.create_MembershipCancellationRequestForm()
+    #ad_db.create_TrainingRegistrationForm()
+    #ad_db.create_TrainingCancellationRequestForm()
     return render_template("test.html")
 
 @application.route("/schedule")
 @login_required
 def schedule():
     current_date = datetime.now().date()
+    
 
     # Filter objects based on the current date and time
     filtered_schedules = SpecificTimeTraining.query.filter(
@@ -117,7 +143,58 @@ def schedule():
         for register in registers:
             registers_map[f"{register.trainingID}/{register.specificTimeTrainingDate}"] = register
 
-    return render_template("schedule.html",schedule_map=map, trainers=trainers_map, trainings=trainings_map, is_admin=admin, registers = registers_map)
+
+
+    schedule_capacity_map = {}
+    for schedule in filtered_schedules:
+        schedule_capacity_map[f"{schedule.trainingID}/{schedule.specificTimeTrainingDate}"]={
+            "capacity":trainings_map[schedule.trainingID].capacity, "utilization": 0}
+
+    schedules_utilizations = db.session.query(
+        TrainingRegistrationForm.specificTimeTrainingDate,
+        TrainingRegistrationForm.trainingID,
+        func.count(TrainingRegistrationForm.registrationID)
+    ).filter(
+        TrainingRegistrationForm.specificTimeTrainingDate >= current_date
+    ).group_by(
+        TrainingRegistrationForm.specificTimeTrainingDate,
+        TrainingRegistrationForm.trainingID
+    ).all()
+
+    for schedule in schedules_utilizations:
+         schedule_capacity_map[f"{schedule.trainingID}/{schedule.specificTimeTrainingDate}"]["utilization"]=schedule[2]
+
+    return render_template("schedule.html",schedule_map=map, trainers=trainers_map, trainings=trainings_map, is_admin=admin, registers = registers_map, schedule_capacity_map=schedule_capacity_map)
+
+
+@application.route("/training-registration" , methods=['POST'])
+@login_required
+def training_registration():
+    trainingID = request.form['trainingID']
+    specificTimeTrainingDate = request.form['specificTimeTrainingDate']
+    trainee = current_user._get_current_object()
+    obj=TrainingRegistrationForm(trainee.traineeID, trainingID, 'Approved',specificTimeTrainingDate)
+    db.session.add(obj)
+    db.session.commit()
+    return redirect(url_for('schedule'))
+
+@application.route("/training-cancelation" , methods=['POST'])
+@login_required
+def training_cancelation():
+    trainingID = request.form['trainingID']
+    specificTimeTrainingDate = request.form['specificTimeTrainingDate']
+    reason = request.form['reason']
+    trainee = current_user._get_current_object()
+    obj=TrainingCancellationRequestForm(trainee.traineeID, reason, 'Approved', specificTimeTrainingDate, trainingID)
+    db.session.add(obj)
+    db.session.commit()
+    obj=TrainingRegistrationForm.query.filter(
+            TrainingRegistrationForm.traineeID == trainee.traineeID,
+            TrainingRegistrationForm.specificTimeTrainingDate == specificTimeTrainingDate, 
+            TrainingRegistrationForm.trainingID == trainingID).first()
+    db.session.delete(obj)
+    db.session.commit()
+    return redirect(url_for('schedule'))
 
 
 @login_manager.user_loader

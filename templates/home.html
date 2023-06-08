@@ -26,17 +26,21 @@
     </div>
   </section>
 
+  
   <section class="membership">
-    <h2>Membership</h2>
-    <p>If you are a studio member and wish to cancel your membership - please click here</p>
-    {% if is_admin %}
-    <a class="cancel-membership-button" role="button" aria-pressed="true">
-      Cancel Membership
-    </a>
+    {% if showCancelProcess %}
+      <p>If you are a studio member and wish to cancel your membership - please click here</p>
+      {% if is_admin %}
+      <a class="cancel-membership-button" role="button" aria-pressed="true">
+        Cancel Membership
+      </a>
+      {% else %}
+      <a class="cancel-membership-button" role="button" aria-pressed="true" data-bs-toggle="modal" data-bs-target="#createModal">
+        Cancel Membership
+      </a>
+      {% endif %}
     {% else %}
-    <a class="cancel-membership-button" role="button" aria-pressed="true" data-bs-toggle="modal" data-bs-target="#createModal">
-      Cancel Membership
-    </a>
+    <p>Your Cancellation request is in process {{ cancle.approvalStatus }}</p>
     {% endif %}
   </section>
   <div class="modal" id="createModal">
@@ -49,16 +53,18 @@
         </div>
         <!-- Modal body -->
         <div class="modal-body">
-          <form action="/submit-cancellation" method="POST">
-
-            <input type="hidden" name="requestID" id="requestID" required>
-            <input type="hidden" name="traineeID" id="traineeID" required>
-            <input type="hidden" name="membershipID" id="membershipID" required>
+          <form action="/membership-cancellation" method="POST">
+            <input type="hidden" name="traineeID" value={{ trainee.traineeID }} required>
+            <input type="hidden" name="membershipID" value={{ trainee.membershipID }} required>
+            <input type="hidden" name="approvalStatus" value="In Process" required>
             <label for="reason">Reason:</label>
-            <textarea name="reason" id="reason" required></textarea><br><br>
+            <select class="form-select form-select-sm" name="reason" aria-label=".form-select-sm example" required>
+              <option disabled selected>Choose one of the reasons</option>
+              <option value="Too expensive">Too expensive</option>
+              <option value="Arriving difficulties">Arriving difficulties</option>
+              <option value="Schedule difficulties">Schedule difficulties</option>
+            </select>
             
-            <label for="requestDate">Request Date:</label>
-            <input type="date" name="requestDate" id="requestDate" required><br><br>
             <input type="submit" value="Submit">
           </form>
         </div>
