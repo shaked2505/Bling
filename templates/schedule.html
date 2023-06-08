@@ -4,6 +4,8 @@
   <title>Schedule Training</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
   <link rel="stylesheet" href="static/css/schedule.css">
+  <script src="static/js/schedule.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 </head>
 <header>
   <nav>
@@ -54,11 +56,11 @@
                 </a>
                 {% else %}
                   {% if "{}/{}".format(schedule.trainingID, schedule.specificTimeTrainingDate) in registers.keys() %}
-                  <a class="btn border-shadow update btn-danger p-2" role="button" aria-pressed="true" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                  <a class="btn border-shadow update btn-danger p-2 openDelete" role="button" aria-pressed="true" data-id="ISBN564541" data-bs-toggle="modal" data-bs-target="#deleteModal">
                     cancle
                   </a>
                   {% else %}
-                  <a class="btn border-shadow update btn-info p-2" role="button" aria-pressed="true" data-bs-toggle="modal" data-bs-target="#createModal">
+                  <a class="btn border-shadow update btn-info p-2" onClick="updateCreateModal('{{ schedule.trainingID }}', '{{ schedule.specificTimeTrainingDate }}')" role="button" aria-pressed="true" data-bs-toggle="modal" data-bs-target="#createModal">
                     Schedule
                   </a>
                   {% endif %}
@@ -80,23 +82,12 @@
               </div>
               <!-- Modal body -->
               <div class="modal-body">
-                <form method="POST" action="/api/coords">
+                <form method="POST" action="/training-registration">
                   <div class="modal-body">  
                     <div class="form-group">
-                      <img src="static\images\logo.png" alt="Logo" >
-                      <input type="hidden" name="traineeID" id="traineeID" required>
-
                       <input type="hidden" name="trainingID" id="trainingID" required>
-                      
                       <input type="hidden" name="specificTimeTrainingDate" id="specificTimeTrainingDate" required>
-                      
-                      <input type="hidden" name="requestDate" id="requestDate" required>
-                      
-                      <input type="hidden" name="approvalStatus" id="approvalStatus" required>
-
                       <h6>Please note- if you want to cancel the training, do it up to 24 hours before the workout.</h6>
-                      
-
                   <div class="modal-footer">
                     <div class="form-group">
                       <button type="Create" class="btn btn-success create">Register</button>

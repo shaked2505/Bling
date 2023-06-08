@@ -146,6 +146,18 @@ def schedule():
     return render_template("schedule.html",schedule_map=map, trainers=trainers_map, trainings=trainings_map, is_admin=admin, registers = registers_map)
 
 
+@application.route("/training-registration" , methods=['POST'])
+@login_required
+def training_registration():
+    trainingID = request.form['trainingID']
+    specificTimeTrainingDate = request.form['specificTimeTrainingDate']
+    trainee = current_user._get_current_object()
+    obj=TrainingRegistrationForm(trainee.traineeID, trainingID, 'Approved',specificTimeTrainingDate)
+    db.session.add(obj)
+    db.session.commit()
+    return redirect(url_for('schedule'))
+
+
 @login_manager.user_loader
 def load_user(user_id):
     user = Trainee.query.get(user_id)

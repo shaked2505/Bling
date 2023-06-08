@@ -1,4 +1,4 @@
-function redirectToschedule(schedule) {
-    var url = "/" + encodeURIComponent(schedule)
-    window.location.href = "/";
-  }
+function updateCreateModal(trainingID, specificTimeTrainingDate){
+  $("#createModal #trainingID").val( trainingID ); 
+  $("#createModal #specificTimeTrainingDate").val( specificTimeTrainingDate ); 
+}
