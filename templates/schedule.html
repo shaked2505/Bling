@@ -28,6 +28,7 @@
             <tr>
               <th scope="col"></th>
               <th scope="col"></th>
+              <th scope="col"></th>
               <th scope="col">{{ date.strftime("%d/%m/%Y") }}</th>
               <th scope="col"></th>
               <th scope="col"></th>
@@ -39,6 +40,7 @@
               <th scope="col">End Time</th>
               <th scope="col">Workout Type</th>
               <th scope="col">Trainer</th>
+              <th scope="col">Capacity / Used</th>
               <th scope="col">Action</th>
             </tr>
           </thead>
@@ -49,6 +51,9 @@
               <td>{{ schedule.endTime.strftime("%H:%M") }}</td>
               <td>{{ trainings[schedule.trainingID].trainingType }}</td>
               <td>{{ trainers[schedule.trainerID].trainerFullName }}</td>
+              <td>{{ schedule_capacity_map["{}/{}".format(schedule.trainingID, schedule.specificTimeTrainingDate)]['capacity'] }} /
+                  {{ schedule_capacity_map["{}/{}".format(schedule.trainingID, schedule.specificTimeTrainingDate)]['utilization'] }}
+              </td>
               <td>
                 {% if is_admin %}
                 <a class="btn border-shadow update btn-info p-2" role="button" aria-pressed="true">
@@ -60,9 +65,16 @@
                     cancle
                   </a>
                   {% else %}
-                  <a class="btn border-shadow update btn-info p-2" onClick="updateCreateModal('{{ schedule.trainingID }}', '{{ schedule.specificTimeTrainingDate }}')" role="button" aria-pressed="true" data-bs-toggle="modal" data-bs-target="#createModal">
-                    Schedule
-                  </a>
+                    {% if schedule_capacity_map["{}/{}".format(schedule.trainingID, schedule.specificTimeTrainingDate)]['capacity'] <=
+                    schedule_capacity_map["{}/{}".format(schedule.trainingID, schedule.specificTimeTrainingDate)]['utilization'] %}
+                    <a class="btn border-shadow update btn-info p-2">
+                      is full
+                    </a>
+                    {% else %}
+                      <a class="btn border-shadow update btn-info p-2" onClick="updateCreateModal('{{ schedule.trainingID }}', '{{ schedule.specificTimeTrainingDate }}')" role="button" aria-pressed="true" data-bs-toggle="modal" data-bs-target="#createModal">
+                        Schedule
+                      </a>
+                    {% endif %}
                   {% endif %}
                 {% endif %}
               </td>

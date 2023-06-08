@@ -15,7 +15,7 @@ from forms.MembershipCancellationRequestForm import MembershipCancellationReques
 from forms.TrainingCancellationRequestForm import TrainingCancellationRequestForm
 from forms.TrainingRegistrationForm import TrainingRegistrationForm
 import add_to_db as ad_db
-from sqlalchemy import asc
+from sqlalchemy import asc,func
 
 
 login_manager = LoginManager()
@@ -57,7 +57,7 @@ def home():
         trainee = current_user._get_current_object()
         cancle = MembershipCancellationRequestForm.query.filter_by(traineeID=trainee.traineeID).first()
         if cancle:
-            showCancelProcess = False
+            showCancelProcess = False   
     return render_template("home.html", is_admin=admin, trainee=user, showCancelProcess=showCancelProcess, cancle=cancle )
 
 @application.route("/membership-cancellation" , methods=['POST'])
@@ -143,7 +143,28 @@ def schedule():
         for register in registers:
             registers_map[f"{register.trainingID}/{register.specificTimeTrainingDate}"] = register
 
-    return render_template("schedule.html",schedule_map=map, trainers=trainers_map, trainings=trainings_map, is_admin=admin, registers = registers_map)
+
+
+    schedule_capacity_map = {}
+    for schedule in filtered_schedules:
+        schedule_capacity_map[f"{schedule.trainingID}/{schedule.specificTimeTrainingDate}"]={
+            "capacity":trainings_map[schedule.trainingID].capacity, "utilization": 0}
+
+    schedules_utilizations = db.session.query(
+        TrainingRegistrationForm.specificTimeTrainingDate,
+        TrainingRegistrationForm.trainingID,
+        func.count(TrainingRegistrationForm.registrationID)
+    ).filter(
+        TrainingRegistrationForm.specificTimeTrainingDate >= current_date
+    ).group_by(
+        TrainingRegistrationForm.specificTimeTrainingDate,
+        TrainingRegistrationForm.trainingID
+    ).all()
+
+    for schedule in schedules_utilizations:
+         schedule_capacity_map[f"{schedule.trainingID}/{schedule.specificTimeTrainingDate}"]["utilization"]=schedule[2]
+
+    return render_template("schedule.html",schedule_map=map, trainers=trainers_map, trainings=trainings_map, is_admin=admin, registers = registers_map, schedule_capacity_map=schedule_capacity_map)
 
 
 @application.route("/training-registration" , methods=['POST'])
