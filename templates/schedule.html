@@ -67,7 +67,7 @@
                   {% else %}
                     {% if schedule_capacity_map["{}/{}".format(schedule.trainingID, schedule.specificTimeTrainingDate)]['capacity'] <=
                     schedule_capacity_map["{}/{}".format(schedule.trainingID, schedule.specificTimeTrainingDate)]['utilization'] %}
-                    <a class="btn border-shadow update btn-info p-2">
+                    <a class="btn border-shadow update btn-warning p-2">
                       is full
                     </a>
                     {% else %}
@@ -120,13 +120,13 @@
               </div>
               <!-- Modal body -->
               <div class="modal-body">
-                <form method="POST" action="/training-cancelation">
+                <form method="POST" action="/training-cancelation" onsubmit="return validateForm()" id="cancelForm">
                   <div class="form-group">
                     <input type="hidden" name="trainingID" id="trainingID" required>
                     <input type="hidden" name="specificTimeTrainingDate" id="specificTimeTrainingDate" required>
                     <label for="reason">Reason:</label>
                     <select class="form-select form-select-sm" name="reason" aria-label=".form-select-sm example" required>
-                      <option disabled selected>Choose one of the reasons</option>
+                      <option value="" disabled selected>Choose one of the reasons</option>
                       <option value="Timetable constraints">Timetable constraints</option>
                       <option value="Health conditions">Health conditions</option>
                     </select>

@@ -196,6 +196,17 @@ def training_cancelation():
     db.session.commit()
     return redirect(url_for('schedule'))
 
+@application.route("/membership-resume" , methods=['POST'])
+@login_required
+def membership_resume():
+    traineeID = request.form['traineeID']
+    membershipID = request.form['membershipID']
+    obj=MembershipCancellationRequestForm.query.filter(
+            MembershipCancellationRequestForm.traineeID == traineeID,
+            MembershipCancellationRequestForm.membershipID == membershipID).first()
+    db.session.delete(obj)
+    db.session.commit()
+    return redirect(url_for('home'))
 
 @login_manager.user_loader
 def load_user(user_id):
