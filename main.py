@@ -16,6 +16,8 @@ from forms.TrainingCancellationRequestForm import TrainingCancellationRequestFor
 from forms.TrainingRegistrationForm import TrainingRegistrationForm
 import add_to_db as ad_db
 from sqlalchemy import asc,func
+import smtplib
+from email.mime.text import MIMEText
 
 
 login_manager = LoginManager()
@@ -212,6 +214,27 @@ def membership_resume():
     db.session.delete(obj)
     db.session.commit()
     return redirect(url_for('home'))
+
+@application.route("/send_mail" , methods=['POST'])
+def send_email():
+    managers=SystemManager.query.all()
+    recipients = []
+    for manager in managers:
+        recipients.append(manager.email)
+    trainee = current_user._get_current_object()
+    subject = "Trainee pushed on 'Cancle Membership'"
+    body = f"The trainee {trainee.traineeID, trainee.traineeFullName} pushed on 'Cancle Membership'"
+    sender = "blingboutiquestudio@gmail.com"
+    password = "jiyhhmzailtggayu"
+    msg = MIMEText(body)
+    msg['Subject'] = subject
+    msg['From'] = sender
+    msg['To'] = ', '.join(recipients)
+    with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp_server:
+       smtp_server.login(sender, password)
+       smtp_server.sendmail(sender, recipients, msg.as_string())
+    return "sent mail to system manager"
+
 
 @login_manager.user_loader
 def load_user(user_id):
