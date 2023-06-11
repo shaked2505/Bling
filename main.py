@@ -1,5 +1,5 @@
 from datetime import date
-from flask import render_template, request, redirect, url_for
+from flask import render_template, request, redirect, url_for, jsonify
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from app import db, application
 from users.Trainer import Trainer
@@ -220,6 +220,28 @@ def membership_resume():
     db.session.commit()
     return redirect(url_for('home'))
 
+@application.route("/get_data_to_report" , methods=['GET'])
+@login_required
+def get_data_to_report():
+    payments = Payment.query.all()
+    data = []
+    for payment in payments:
+        payment_data = {
+            'id': payment.paymentID,
+            'amount': payment.amount,
+            'date_of_payment': payment.dateOfPayment.strftime('%Y-%m-%d'),
+            'productID': payment.productID,
+            'traineeID': payment.traineeID,
+            'membershipID': payment.membershipID
+        }
+        data.append(payment_data)
+    return jsonify(data)
+
+@application.route("/data_report" , methods=['GET'])
+def data_report():
+    return render_template('DataReport.html')
+
+
 @application.route("/send_mail" , methods=['POST'])
 def send_email():
     managers=SystemManager.query.all()
@@ -252,6 +274,6 @@ if __name__ == '__main__':
     with application.app_context():
         # Create the database tables 
         db.create_all()
-    application.run()
+    application.run(debug=True)
 
 
