@@ -57,7 +57,11 @@ def home():
     cancle = None
     if not admin:
         trainee = current_user._get_current_object()
-        cancle = MembershipCancellationRequestForm.query.filter_by(traineeID=trainee.traineeID).first()
+        cancle = MembershipCancellationRequestForm.query.filter(
+            MembershipCancellationRequestForm.traineeID==trainee.traineeID,
+            MembershipCancellationRequestForm.approvalStatus=="In Process"
+        ).first()
+        print(cancle)
         if cancle:
             showCancelProcess = False   
     return render_template("home.html", is_admin=admin, trainee=user, showCancelProcess=showCancelProcess, cancle=cancle )
@@ -210,8 +214,9 @@ def membership_resume():
     membershipID = request.form['membershipID']
     obj=MembershipCancellationRequestForm.query.filter(
             MembershipCancellationRequestForm.traineeID == traineeID,
-            MembershipCancellationRequestForm.membershipID == membershipID).first()
-    db.session.delete(obj)
+            MembershipCancellationRequestForm.membershipID == membershipID,
+            MembershipCancellationRequestForm.approvalStatus == "In Process").first()
+    obj.approvalStatus = "Cancel"    
     db.session.commit()
     return redirect(url_for('home'))
 
@@ -222,7 +227,7 @@ def send_email():
     for manager in managers:
         recipients.append(manager.email)
     trainee = current_user._get_current_object()
-    subject = "Trainee pushed on 'Cancle Membership'"
+    subject = "Trainee sum on 'Cancle Membership'"
     body = f"The trainee {trainee.traineeID, trainee.traineeFullName} pushed on 'Cancle Membership'"
     sender = "blingboutiquestudio@gmail.com"
     password = "jiyhhmzailtggayu"
