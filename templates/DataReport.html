@@ -1,131 +1,232 @@
 <!DOCTYPE html>
-        <html>
-        <head>
-          <title>Data Report</title>
-          <style>
-            body {
-              font-family: Arial, sans-serif;
-              background-color: #877f7f;
-            }
-        
-            .container {
-              position: relative;
-              width: 800px;
-              margin: 0 auto;
-              padding: 20px;
-              background-color: #fff;
-              border: 1px solid #ccc;
-              border-radius: 5px;
-              margin-top: 100px;
-            }
-        
-            .logo-container {
-              text-align: center;
-              margin-bottom: 20px;
-            }
-        
-            h2 {
-              text-align: center;
-            }
-        
-            input[type="text"],
-            input[type="password"] {
-              width: 100%;
-              padding: 10px;
-              margin-bottom: 10px;
-              border: 1px solid #bab9b9;
-              border-radius: 4px;
-              box-sizing: border-box;
-            }
-        
-            input[type="submit"] {
-              background-color: #a9a7a7;
-              color: #fff;
-              padding: 10px 20px;
-              border: none;
-              border-radius: 4px;
-              cursor: pointer;
-              width: 100%;
-            }
-        
-            input[type="submit"]:hover {
-              background-color: #5e5d5d;
-            }
-        
-            table {
-              width: 100%;
-              border-collapse: collapse;
-            }
-        
-            th, td {
-              padding: 8px;
-              text-align: left;
-              border-bottom: 1px solid #ddd;
-            }
-        
-            .filter-container {
-              margin-bottom: 10px;
-            }
-        
-            .filter-container label {
-              margin-right: 10px;
-            }
-        
-            .date-container {
-              margin-bottom: 10px;
-            }
-        
-            .button-container {
-              text-align: center;
-            }
-        
-            .button-container button {
-              margin-right: 10px;
-            }
-          </style>
-        </head>
-        <body>
-          <div class="container">
-            <div class="logo-container">
-              <img src="C:\Users\Roni\Bling\BlingLogo.PNG" alt="Logo" width="140px">
-            </div>
-            <h2>Data Report</h2>
-        
-            <div class="filter-container">
-              <label for="income-filter">Income Type:</label>
-              <select id="income-filter">
+<html>
+
+<head>
+    <title>Data Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #877f7f;
+        }
+
+        .container {
+            position: relative;
+            width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-top: 100px;
+        }
+
+        .logo-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #bab9b9;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            background-color: #a9a7a7;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #5e5d5d;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .filter-container {
+            margin-bottom: 10px;
+        }
+
+        .filter-container label {
+            margin-right: 10px;
+        }
+
+        .date-container {
+            margin-bottom: 10px;
+        }
+
+        .button-container {
+            text-align: center;
+        }
+
+        .button-container button {
+            margin-right: 10px;
+        }
+
+        .table-cell {
+            width: 100px;
+            /* Adjust the width as needed */
+        }
+
+        .show-table {
+            display: block;
+        }
+
+        .hide-table {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="logo-container">
+            <img src="C:\Users\Roni\Bling\static\images\logo.png" alt="Logo" width="140px">
+        </div>
+        <h2>Data Report</h2>
+
+        <div class="filter-container">
+            <label for="income-filter">Income Type:</label>
+            <select id="income-filter">
                 <option value="all">All</option>
-                <option value="mem-plans">Membership Plans</option>
+                <option value="mem_plans">Membership Plans</option>
                 <option value="branded">Branded Merchandise</option>
-              </select>
-            </div>
-        
-            <div class="date-container">
-              <label for="start-date">Start Date:</label>
-              <input type="date" id="start-date">
-        
-              <label for="end-date">End Date:</label>
-              <input type="date" id="end-date">
-            </div>
-        
-            <div class="button-container">
-              <button id="apply-button">Apply</button>
-              <button id="reset-button">Reset</button>
-            </div>
-        
-            <table id="mem-plans-table">
-              <caption>Revenue from Membership Plans</caption>
-              <thead>
-                <tr>
-                  <th>Membership plan name</th>
-                  <th>Membership plan name</th>
-                  <th>Customer ID</th>
-                  <th>Date of Transaction</th>
-                  <th>Transaction Amount</th>
-                </tr>
-              </thead>
-              <tbody>
-                <!-- Table rows will be populated dynamically using 
+            </select>
+        </div>
+
+        <div class="date-container">
+            <label for="start-date">Start Date:</label>
+            <input type="date" id="start-date">
+
+            <label for="end-date">End Date:</label>
+            <input type="date" id="end-date">
+        </div>
+
+        <div class="button-container">
+            <button id="apply-button" onclick="createTable()">Apply</button>
+            <button id="reset-button">Reset</button>
+        </div>
+
+        <table id="report-table" class="hide-table">
+            <caption id="table-headline"></caption>
+        </table>
+    </div>
 
 
-                
+    <script>
+        function generateData(parent) {
+            fetch('/get_data_to_report', {
+                method: 'GET'
+            })
+                .then(function (response) {
+                    if (response.ok) {
+                        return response.json(); // Parse the response as JSON
+                    }
+                    throw new Error('Failed to send cancellation request.');
+                })
+                .then(function (dataList) {
+                    // Handle the data
+                    var body = document.createElement('tbody');
+                    dataList.forEach(data => {
+                        var row = document.createElement('tr');
+                        var td = document.createElement('td');
+                        td.textContent = data['id']
+                        td.classList.add('table-cell');
+                        row.appendChild(td)
+                        var td = document.createElement('td');
+                        td.textContent = data['amount']
+                        row.appendChild(td)
+                        var td = document.createElement('td');
+                        td.textContent = data['date_of_payment']
+                        row.appendChild(td)
+                        var td = document.createElement('td');
+                        td.textContent = data['productID']
+                        row.appendChild(td)
+                        var td = document.createElement('td');
+                        td.textContent = data['traineeID']
+                        row.appendChild(td)
+                        var td = document.createElement('td');
+                        td.textContent = data['membershipID']
+                        row.appendChild(td)
+                        console.log(data)
+
+                        body.appendChild(row)
+                    });
+
+
+                    parent.appendChild(body)
+
+                    // You can perform any additional actions with the data here if needed
+                })
+                .catch(function (error) {
+                    // Handle error
+                    console.error(error.message);
+                    // You can display an error message or perform any additional error handling here
+                });
+        }
+
+        function createTable() {
+            var table = document.getElementById('report-table')
+            if (table.classList.contains('show-table')) {
+                table.classList.remove('show-table')
+                table.classList.add('hide-table')
+            } else if (table.classList.contains('hide-table')) {
+                table.classList.remove('hide-table')
+                table.classList.add('show-table')
+
+                table.innerHTML = ""
+                var headline = document.createElement('caption')
+                table.appendChild(headline)
+                var head = document.createElement('thead')
+                var headRow = document.createElement('tr')
+                var option = document.getElementById('income-filter')
+                if (option.value === 'mem_plans') {
+                    var headlineContent = 'Revenue from Membership Plans'
+                    var columns = ['Item ID', 'amount', 'date_of_payment', 'productID', 'traineeID', 'membershipID']
+                } else if (option.value === 'branded') {
+                    var headlineContent = 'Revenue from Branded Merchandise'
+                    var columns = ['Item ID', 'amount', 'date_of_payment', 'productID', 'traineeID', 'membershipID']
+                } else {
+                    var headlineContent = 'All Revenue'
+                    var columns = ['Item ID', 'amount', 'date_of_payment', 'productID', 'traineeID', 'membershipID']
+                }
+                headline.textContent = headlineContent
+                columns.forEach(function (column) {
+                    var th = document.createElement('th')
+                    th.textContent = column
+                    headRow.appendChild(th)
+                })
+                head.appendChild(headRow)
+                table.append(head)
+                generateData(table)
+            }
+
+
+
+        }
+    </script>
+</body>
+
+</html>
