@@ -1,8 +1,43 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+nav ul {
+  list-style-type: none;
+}
+
+img {
+  width: 50px;
+  margin-bottom: 20px;
+}
+
+nav ul li {
+  display: inline;
+  margin-right: 10px;
+}
+
+
+nav ul li a {
+  color: #ffffff;
+  text-decoration: none;
+}
+
 body {
   font-family: Arial, sans-serif;
   line-height: 1.2;
   background-color: #ccc;
 }
+
+header {
+  background-color: #877f7f;
+  color: #fff;
+  padding: 20px;
+}
+nav ul li a {
+  color: #ffffff;
+  text-decoration: none;
+} 
 
 .schedule-date-color {
   background-color: darkslategray;
