@@ -23,10 +23,26 @@ nav ul li a {
   text-decoration: none;
 }
 
+.logo {
+  position: absolute;
+  right:20px;
+  top: 10px;
+  /*margin-left: auto;*/
+ /* Push the logo image to the right */
+}
+
 body {
   font-family: Arial, sans-serif;
   line-height: 1.2;
   background-color: #ccc;
+}
+
+#scheduleFont {
+  font-family: 'ELEGANT', sans-serif;
+  font-size: 40px; /* Adjust the value to make it bigger */
+  font-weight: bold;
+  line-height: 1.2;
+  
 }
 
 header {
@@ -85,7 +101,7 @@ h1 {
 }
 
 img {
-  width: 140px;
+  width: 60 px;
   margin-bottom: 20px;
 }
 

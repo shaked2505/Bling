@@ -7,45 +7,74 @@
 
 /* Global Styles */
 body {
-  font-family: Arial, sans-serif;
   line-height: 1.6;
-  background-color: #ccc
+  background-color: #ccc;
 }
 
 header {
   background-color: #877f7f;
   color: #fff;
   padding: 20px;
+  display: flex;
+  justify-content: space-between; /* Align items horizontally */
+  align-items: center; /* Align items vertically */
 }
 
 nav ul {
   list-style-type: none;
+  display: flex;
+  align-items: center; /* Align items vertically */
 }
 
 nav ul li {
-  display: inline;
-  margin-right: 10px;
+  margin-right: 30px;
 }
 
+nav ul li a:hover {
+  color: #5e5d5d;
+}
 
 nav ul li a {
   color: #ffffff;
   text-decoration: none;
 }
 
+.logo {
+  position: absolute;
+  right:20px;
+  top: 10px;
+  /*margin-left: auto;*/
+ /* Push the logo image to the right */
+}
+
+
 .hero {
-  background-image: url('C:\Users\shaked\Bling\images\sparkles.png');
+  background-image: url('static/images/sparkles.png'); /* Update the path to the background image */
   background-size: cover;
   background-position: center;
   text-align: center;
   padding: 50px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .hero-content {
-  max-width: 600px;
-  margin: 0 auto;
-  color: #01000a;
+  margin-top: auto;
 }
+
+.schedule-button {
+  display: inline-block;
+  background-color: #bab9b9;
+  color: #080000;
+  padding: 20px 15px;
+  text-decoration: none;
+  font-size: 25px;
+  border-radius: 5px;
+  margin-top: 20px;
+}
+
 
 h1 {
   font-size: 36px;
@@ -57,7 +86,6 @@ p {
   margin-bottom: 20px;
 }
 
-.schedule-button,
 .cancel-membership-button {
   display: inline-block;
   background-color: #bab9b9;
@@ -72,7 +100,7 @@ p {
 .schedule-button:hover,
 .cancel-membership-button:hover {
   background-color: #5e5d5d;
-  color: white
+  color: white;
 }
 
 .membership {
