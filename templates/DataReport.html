@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+          <title>Data Report</title>
+          <style>
+            body {
+              font-family: Arial, sans-serif;
+              background-color: #877f7f;
+            }
+        
+            .container {
+              position: relative;
+              width: 800px;
+              margin: 0 auto;
+              padding: 20px;
+              background-color: #fff;
+              border: 1px solid #ccc;
+              border-radius: 5px;
+              margin-top: 100px;
+            }
+        
+            .logo-container {
+              text-align: center;
+              margin-bottom: 20px;
+            }
+        
+            h2 {
+              text-align: center;
+            }
+        
+            input[type="text"],
+            input[type="password"] {
+              width: 100%;
+              padding: 10px;
+              margin-bottom: 10px;
+              border: 1px solid #bab9b9;
+              border-radius: 4px;
+              box-sizing: border-box;
+            }
+        
+            input[type="submit"] {
+              background-color: #a9a7a7;
+              color: #fff;
+              padding: 10px 20px;
+              border: none;
+              border-radius: 4px;
+              cursor: pointer;
+              width: 100%;
+            }
+        
+            input[type="submit"]:hover {
+              background-color: #5e5d5d;
+            }
+        
+            table {
+              width: 100%;
+              border-collapse: collapse;
+            }
+        
+            th, td {
+              padding: 8px;
+              text-align: left;
+              border-bottom: 1px solid #ddd;
+            }
+        
+            .filter-container {
+              margin-bottom: 10px;
+            }
+        
+            .filter-container label {
+              margin-right: 10px;
+            }
+        
+            .date-container {
+              margin-bottom: 10px;
+            }
+        
+            .button-container {
+              text-align: center;
+            }
+        
+            .button-container button {
+              margin-right: 10px;
+            }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="logo-container">
+              <img src="C:\Users\Roni\Bling\BlingLogo.PNG" alt="Logo" width="140px">
+            </div>
+            <h2>Data Report</h2>
+        
+            <div class="filter-container">
+              <label for="income-filter">Income Type:</label>
+              <select id="income-filter">
+                <option value="all">All</option>
+                <option value="mem-plans">Membership Plans</option>
+                <option value="branded">Branded Merchandise</option>
+              </select>
+            </div>
+        
+            <div class="date-container">
+              <label for="start-date">Start Date:</label>
+              <input type="date" id="start-date">
+        
+              <label for="end-date">End Date:</label>
+              <input type="date" id="end-date">
+            </div>
+        
+            <div class="button-container">
+              <button id="apply-button">Apply</button>
+              <button id="reset-button">Reset</button>
+            </div>
+        
+            <table id="mem-plans-table">
+              <caption>Revenue from Membership Plans</caption>
+              <thead>
+                <tr>
+                  <th>Membership plan name</th>
+                  <th>Membership plan name</th>
+                  <th>Customer ID</th>
+                  <th>Date of Transaction</th>
+                  <th>Transaction Amount</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Table rows will be populated dynamically using 
+
+
+                
