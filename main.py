@@ -99,7 +99,7 @@ def create_records():
     # ad_db.create_Payment()
     # ad_db.create_SpecificTimeTraining()
     ad_db.create_MembershipCancellationRequestForm()
-    ad_db.create_TrainingRegistrationForm()
+    ad_db.create_TrainingRegifstrationForm()
     ad_db.create_TrainingCancellationRequestForm()
     return render_template("test.html")
 
@@ -220,22 +220,83 @@ def membership_resume():
     db.session.commit()
     return redirect(url_for('home'))
 
-@application.route("/get_data_to_report" , methods=['GET'])
+@application.route("/get_data_to_report" , methods=['POST'])
 @login_required
 def get_data_to_report():
-    payments = Payment.query.all()
-    data = []
-    for payment in payments:
-        payment_data = {
-            'id': payment.paymentID,
-            'amount': payment.amount,
-            'date_of_payment': payment.dateOfPayment.strftime('%Y-%m-%d'),
-            'productID': payment.productID,
-            'traineeID': payment.traineeID,
-            'membershipID': payment.membershipID
-        }
-        data.append(payment_data)
-    return jsonify(data)
+    data = request.get_json()
+    startDate = data['startDate']
+    endDate = data['endDate']
+    incomeType = data['incomeType']
+
+    trainee_map={}
+    trainees = Trainee.query.all()
+    for trainee in trainees:
+        trainee_map[trainee.traineeID] = trainee
+
+    merch_map={}
+    merches = BrandedMerchandise.query.all()
+    for merch in merches:
+        merch_map[merch.productID] = merch
+
+    memb_map={}
+    membs = MembershipPlan.query.all()
+    for memb in membs:
+        memb_map[memb.membershipID] = memb
+
+    ret_data = []
+    if incomeType == "mem_plans":
+        payments = Payment.query.filter(
+            Payment.dateOfPayment <= endDate,
+            Payment.dateOfPayment >= startDate,
+            Payment.productID == None
+        ).all()
+        for payment in payments:
+            payment_data = {
+                'id': payment.paymentID,
+                'traineeID': trainee_map[payment.traineeID].traineeFullName,
+                'date_of_payment': payment.dateOfPayment.strftime('%d/%m/%Y'),
+                'amount': payment.amount,
+                'membershipID': memb_map[payment.membershipID].membershipPlanType
+            }
+            ret_data.append(payment_data)
+    elif incomeType == "branded":
+        payments = Payment.query.filter(
+            Payment.dateOfPayment <= endDate,
+            Payment.dateOfPayment >= startDate,
+            Payment.productID != None
+        ).all()
+        for payment in payments:
+            payment_data = {
+                'id': payment.paymentID,
+                'traineeID': trainee_map[payment.traineeID].traineeFullName,
+                'date_of_payment': payment.dateOfPayment.strftime('%d/%m/%Y'),
+                'amount': payment.amount,
+                'productID': merch_map[payment.productID].productName,
+            }
+            ret_data.append(payment_data)
+    else:
+        payments = Payment.query.filter(
+            Payment.dateOfPayment <= endDate,
+            Payment.dateOfPayment >= startDate
+        ).all()
+        for payment in payments:
+            if payment.productID:
+                product =  merch_map[payment.productID].productName
+                memb = None
+            else:
+                product =  None
+                memb = memb_map[payment.membershipID].membershipPlanType      
+            payment_data = {
+                'id': payment.paymentID,
+                'traineeID': trainee_map[payment.traineeID].traineeFullName,
+                'date_of_payment': payment.dateOfPayment.strftime('%d/%m/%Y'),
+                'amount': payment.amount,
+                'productID': product,
+                'membershipID': memb
+            }
+            ret_data.append(payment_data)
+
+    return jsonify(ret_data)
 
 @application.route("/data_report" , methods=['GET'])
 def data_report():
