@@ -13,15 +13,17 @@ class TrainingRegistrationForm(db.Model):
                                     [SpecificTimeTraining.specificTimeTrainingDate, SpecificTimeTraining.trainingID]),
                     {})
     requestDate = db.Column(db.Date)
+    requestTime = db.Column(db.Time)
     approvalStatus = db.Column(db.String)
 
     # Create initializer/constructor
-    def __init__(self, traineeID,trainingID, approvalStatus, specificTimeTrainingDate, requestDate=datetime.date.today()):
+    def __init__(self, traineeID,trainingID, approvalStatus, specificTimeTrainingDate, requestDate=datetime.date.today(),requestTime=datetime.datetime.now().time()):
         self.traineeID = traineeID
         self.trainingID = trainingID
         self.specificTimeTrainingDate = specificTimeTrainingDate
         self.requestDate = requestDate
         self.approvalStatus = approvalStatus
+        self.requestTime = requestTime
 
 
 

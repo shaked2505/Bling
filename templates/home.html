@@ -37,7 +37,7 @@
         Cancel Membership
       </a>
       {% else %}
-      <a class="cancel-membership-button" role="button" aria-pressed="true" data-bs-toggle="modal" data-bs-target="#createModal" onclick="send_mail()">
+      <a class="cancel-membership-button" role="button" aria-pressed="true" data-bs-toggle="modal" data-bs-target="#createModal">
         Cancel Membership
       </a>
       {% endif %}
@@ -70,7 +70,7 @@
               <option value="Schedule difficulties">Schedule difficulties</option>
             </select>
             
-            <input type="submit" value="Submit">
+            <input type="submit" value="Submit" onclick="send_mail()">
           </form>
         </div>
       </div>

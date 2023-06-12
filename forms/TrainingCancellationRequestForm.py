@@ -15,15 +15,17 @@ class TrainingCancellationRequestForm(db.Model):
     Specific_Time_Training = db.relationship('SpecificTimeTraining', foreign_keys=[specificTimeTrainingDate, trainingID])
     reason = db.Column(db.String)
     requestDate = db.Column(db.Date)
+    requestTime = db.Column(db.Time)
     approvalStatus = db.Column(db.String)
 
     # Create initializer/constructor
-    def __init__(self, traineeID, reason, approvalStatus, specificTimeTrainingDate, trainingID, requestDate=datetime.date.today()):
+    def __init__(self, traineeID, reason, approvalStatus, specificTimeTrainingDate, trainingID, requestDate=datetime.date.today(), requestTime=datetime.datetime.now().time()):
         self.traineeID = traineeID
         self.trainingID = trainingID
         self.specificTimeTrainingDate = specificTimeTrainingDate
         self.reason = reason
         self.requestDate = requestDate
+        self.requestTime = requestTime
         self.approvalStatus = approvalStatus
 
 
