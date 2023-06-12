@@ -1,9 +1,19 @@
-body {
-    font-family: Arial, sans-serif;
-    line-height: 1.2;
-    background-color: #ccc;
-  }
 
+
+body {
+  font-family: 'Ariel', sans-serif;
+  font-size: 20px; /* Adjust the value to make it bigger */
+  line-height: 1.2;
+  background-color: #ccc;
+}
+
+#headline {
+  font-family: 'ELEGANT', sans-serif;
+  font-size: 40px; /* Adjust the value to make it bigger */
+  font-weight: bold;
+  line-height: 1.2;
+  background-color: #ccc;
+}
   .schedule-date-color {
     background-color: darkslategray;
     color: white;
@@ -49,8 +59,9 @@ body {
   }
 
   img {
-    width: 140px;
+    width: 60px;
     margin-bottom: 20px;
+
   }
 
   label {
@@ -82,5 +93,6 @@ body {
   }
 
   input[type="submit"]:hover {
-    background-color: #a395d6;
+    background-color: #5e5d5d;
+    color: white;
   }
