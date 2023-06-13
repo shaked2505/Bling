@@ -6,18 +6,19 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #877f7f;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
         }
 
         .container {
-            position: relative;
             width: 800px;
-            margin: 0 auto;
+            margin: 100px auto;
             padding: 20px;
             background-color: #fff;
             border: 1px solid #ccc;
             border-radius: 5px;
-            margin-top: 100px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .logo-container {
@@ -27,51 +28,107 @@
 
         h2 {
             text-align: center;
+            color: #333;
+            margin-bottom: 20px;
         }
 
         input[type="text"],
-        input[type="password"] {
+        input[type="password"],
+        select,
+        input[type="date"] {
             width: 100%;
             padding: 10px;
             margin-bottom: 10px;
-            border: 1px solid #bab9b9;
+            border: 1px solid #ccc;
             border-radius: 4px;
             box-sizing: border-box;
+            font-family: Arial, sans-serif;
+            transition: border-color 0.3s ease;
+            text-align: center;
         }
 
+        input[type="text"]:hover,
+        input[type="password"]:hover,
+        select:hover,
+        input[type="date"]:hover {
+            border-color: #1953b8;
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus,
+        select:focus,
+        input[type="date"]:focus {
+            outline: none;
+            border-color: #1953b8;
+            box-shadow: 0 0 5px rgba(25, 83, 184, 0.5);
+        }
+
+
         input[type="submit"] {
-            background-color: #a9a7a7;
+            background-color: #4caf50;
             color: #fff;
             padding: 10px 20px;
             border: none;
             border-radius: 4px;
             cursor: pointer;
             width: 100%;
+            font-family: Arial, sans-serif;
+            transition: background-color 0.3s ease;
         }
 
         input[type="submit"]:hover {
-            background-color: #5e5d5d;
+            background-color: #45a049;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
+            margin-top: 20px;
+            table-layout: fixed;
         }
 
         th,
         td {
-            padding: 8px;
+            padding: 12px;
             text-align: left;
             border-bottom: 1px solid #ddd;
+            word-wrap: break-word;
+            max-width: 200px;
         }
+
+        th {
+            background-color: #f5f5f5;
+            font-weight: bold;
+            color: #333;
+        }
+
+        td {
+            background-color: #fff;
+            color: #333;
+        }
+
+        tr:nth-child(even) td {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover td {
+            background-color: #eaf1fd;
+        }
+
 
         .filter-container {
             margin-bottom: 10px;
+            text-align: center;
         }
 
         .filter-container label {
+            display: inline-block;
             margin-right: 10px;
+            font-weight: bold;
+            color: #333;
+            transition: color 0.3s ease;
         }
+
 
         .date-container {
             margin-bottom: 10px;
@@ -82,7 +139,19 @@
         }
 
         .button-container button {
+            background-color: #1953b8;
             margin-right: 10px;
+            font-family: Arial, sans-serif;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            border: none;
+            color: #fff;
+        }
+
+        .button-container button:hover {
+            background-color: #0d366f;
         }
 
         .table-cell {
@@ -97,11 +166,20 @@
         .hide-table {
             display: none;
         }
+        #export-button {
+            margin-top: 20px;
+        }
+
+        #table-headline {
+            caption-side: top;
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 10px;
+            color: #333;
+        }
     </style>
-<<<<<<< HEAD
     <script src="static/js/dataReport.js"></script>
-=======
->>>>>>> 97f112adb42f509e521a2fb728ab1b5f75187552
 </head>
 
 <body>
@@ -118,122 +196,27 @@
                 <option value="mem_plans">Membership Plans</option>
                 <option value="branded">Branded Merchandise</option>
             </select>
-        </div>
 
-        <div class="date-container">
+
             <label for="start-date">Start Date:</label>
-            <input type="date" id="start-date">
+            <input type="date" id="start-date" required>
 
             <label for="end-date">End Date:</label>
-            <input type="date" id="end-date">
+            <input type="date" id="end-date" required>
         </div>
 
         <div class="button-container">
             <button id="apply-button" onclick="createTable()">Apply</button>
-            <button id="reset-button">Reset</button>
         </div>
+
 
         <table id="report-table" class="hide-table">
             <caption id="table-headline"></caption>
         </table>
+        <div class="button-container">
+            <button id="export-button" class="hide-table">Export</button>
+        </div>
     </div>
-
-<<<<<<< HEAD
-=======
-
-    <script>
-        function generateData(parent) {
-            fetch('/get_data_to_report', {
-                method: 'GET'
-            })
-                .then(function (response) {
-                    if (response.ok) {
-                        return response.json(); // Parse the response as JSON
-                    }
-                    throw new Error('Failed to send cancellation request.');
-                })
-                .then(function (dataList) {
-                    // Handle the data
-                    var body = document.createElement('tbody');
-                    dataList.forEach(data => {
-                        var row = document.createElement('tr');
-                        var td = document.createElement('td');
-                        td.textContent = data['id']
-                        td.classList.add('table-cell');
-                        row.appendChild(td)
-                        var td = document.createElement('td');
-                        td.textContent = data['amount']
-                        row.appendChild(td)
-                        var td = document.createElement('td');
-                        td.textContent = data['date_of_payment']
-                        row.appendChild(td)
-                        var td = document.createElement('td');
-                        td.textContent = data['productID']
-                        row.appendChild(td)
-                        var td = document.createElement('td');
-                        td.textContent = data['traineeID']
-                        row.appendChild(td)
-                        var td = document.createElement('td');
-                        td.textContent = data['membershipID']
-                        row.appendChild(td)
-                        console.log(data)
-
-                        body.appendChild(row)
-                    });
-
-
-                    parent.appendChild(body)
-
-                    // You can perform any additional actions with the data here if needed
-                })
-                .catch(function (error) {
-                    // Handle error
-                    console.error(error.message);
-                    // You can display an error message or perform any additional error handling here
-                });
-        }
-
-        function createTable() {
-            var table = document.getElementById('report-table')
-            if (table.classList.contains('show-table')) {
-                table.classList.remove('show-table')
-                table.classList.add('hide-table')
-            } else if (table.classList.contains('hide-table')) {
-                table.classList.remove('hide-table')
-                table.classList.add('show-table')
-
-                table.innerHTML = ""
-                var headline = document.createElement('caption')
-                table.appendChild(headline)
-                var head = document.createElement('thead')
-                var headRow = document.createElement('tr')
-                var option = document.getElementById('income-filter')
-                if (option.value === 'mem_plans') {
-                    var headlineContent = 'Revenue from Membership Plans'
-                    var columns = ['Item ID', 'amount', 'date_of_payment', 'productID', 'traineeID', 'membershipID']
-                } else if (option.value === 'branded') {
-                    var headlineContent = 'Revenue from Branded Merchandise'
-                    var columns = ['Item ID', 'amount', 'date_of_payment', 'productID', 'traineeID', 'membershipID']
-                } else {
-                    var headlineContent = 'All Revenue'
-                    var columns = ['Item ID', 'amount', 'date_of_payment', 'productID', 'traineeID', 'membershipID']
-                }
-                headline.textContent = headlineContent
-                columns.forEach(function (column) {
-                    var th = document.createElement('th')
-                    th.textContent = column
-                    headRow.appendChild(th)
-                })
-                head.appendChild(headRow)
-                table.append(head)
-                generateData(table)
-            }
-
-
-
-        }
-    </script>
->>>>>>> 97f112adb42f509e521a2fb728ab1b5f75187552
 </body>
 
 </html>
