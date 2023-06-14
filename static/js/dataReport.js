@@ -159,9 +159,17 @@ function exportToExcel() {
       })
       .then(function (blob) {
         // Create a temporary anchor element to trigger the download
+        var now = new Date();
+        var year = now.getFullYear();
+        var month = String(now.getMonth() + 1).padStart(2, "0");
+        var day = String(now.getDate()).padStart(2, "0");
+        var hours = String(now.getHours()).padStart(2, "0");
+        var minutes = String(now.getMinutes()).padStart(2, "0");
+        var timestamp = `${year}-${month}-${day}_${hours}-${minutes}`;
+        var filename = "report_" + timestamp + ".csv";
         var link = document.createElement('a');
         link.href = URL.createObjectURL(blob);
-        link.download = 'data.csv';
+        link.download = filename;
         link.click();
         URL.revokeObjectURL(link.href);
   
