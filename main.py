@@ -1,5 +1,5 @@
 from datetime import date
-from flask import render_template, request, redirect, url_for
+from flask import render_template, request, redirect, url_for, jsonify, Response 
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from app import db, application
 from users.Trainer import Trainer
@@ -18,7 +18,8 @@ import add_to_db as ad_db
 from sqlalchemy import asc,func
 import smtplib
 from email.mime.text import MIMEText
-
+import csv
+from io import StringIO
 
 login_manager = LoginManager()
 login_manager.init_app(application)
@@ -220,6 +221,126 @@ def membership_resume():
     db.session.commit()
     return redirect(url_for('home'))
 
+
+def get_report_map(startDate, endDate, incomeType):
+    trainee_map={}
+    trainees = Trainee.query.all()
+    for trainee in trainees:
+        trainee_map[trainee.traineeID] = trainee
+
+    merch_map={}
+    merches = BrandedMerchandise.query.all()
+    for merch in merches:
+        merch_map[merch.productID] = merch
+
+    memb_map={}
+    membs = MembershipPlan.query.all()
+    for memb in membs:
+        memb_map[memb.membershipID] = memb
+
+    ret_data = []
+    if incomeType == "mem_plans":
+        payments = Payment.query.filter(
+            Payment.dateOfPayment <= endDate,
+            Payment.dateOfPayment >= startDate,
+            Payment.productID == None
+        ).all()
+        for payment in payments:
+            payment_data = {
+                'id': payment.paymentID,
+                'traineeID': trainee_map[payment.traineeID].traineeFullName,
+                'date_of_payment': payment.dateOfPayment.strftime('%d/%m/%Y'),
+                'amount': payment.amount,
+                'membershipID': memb_map[payment.membershipID].membershipPlanType
+            }
+            ret_data.append(payment_data)
+    elif incomeType == "branded":
+        payments = Payment.query.filter(
+            Payment.dateOfPayment <= endDate,
+            Payment.dateOfPayment >= startDate,
+            Payment.productID != None
+        ).all()
+        for payment in payments:
+            payment_data = {
+                'id': payment.paymentID,
+                'traineeID': trainee_map[payment.traineeID].traineeFullName,
+                'date_of_payment': payment.dateOfPayment.strftime('%d/%m/%Y'),
+                'amount': payment.amount,
+                'productID': merch_map[payment.productID].productName,
+            }
+            ret_data.append(payment_data)
+    else:
+        payments = Payment.query.filter(
+            Payment.dateOfPayment <= endDate,
+            Payment.dateOfPayment >= startDate
+        ).all()
+        for payment in payments:
+            if payment.productID:
+                product =  merch_map[payment.productID].productName
+                memb = None
+            else:
+                product =  None
+                memb = memb_map[payment.membershipID].membershipPlanType      
+            payment_data = {
+                'id': payment.paymentID,
+                'traineeID': trainee_map[payment.traineeID].traineeFullName,
+                'date_of_payment': payment.dateOfPayment.strftime('%d/%m/%Y'),
+                'amount': payment.amount,
+                'productID': product,
+                'membershipID': memb
+            }
+            ret_data.append(payment_data)
+    return ret_data
+
+
+@application.route("/get_data_to_report" , methods=['POST'])
+@login_required
+def get_data_to_report():
+    data = request.get_json()
+    startDate = data['startDate']
+    endDate = data['endDate']
+    incomeType = data['incomeType']
+
+    data = get_report_map(startDate, endDate, incomeType)
+
+    return jsonify(data)
+
+@application.route("/get_report_csv" , methods=['POST'])
+def get_report_csv():
+    data = request.get_json()
+    startDate = data['startDate']
+    endDate = data['endDate']
+    incomeType = data['incomeType']
+
+    data = get_report_map(startDate, endDate, incomeType)
+
+    keys = data[0].keys()
+
+    # Create a CSV file in memory
+    csv_output = StringIO()
+    csv_writer = csv.DictWriter(csv_output, fieldnames=keys)
+    csv_writer.writeheader()
+    csv_writer.writerows(data)
+
+    headers = {
+        'Content-Disposition': 'attachment; filename=data.csv',
+        'Content-Type': 'text/csv'
+    }
+    print("-------------------")
+    return Response(
+        csv_output.getvalue(),
+        mimetype='text/csv',
+        headers=headers
+    )
+
+
+
+@application.route("/data_report" , methods=['GET'])
+@login_required
+def data_report():
+    return render_template('DataReport.html')
+
+
 @application.route("/send_mail" , methods=['POST'])
 def send_email():
     managers=SystemManager.query.all()
@@ -252,6 +373,6 @@ if __name__ == '__main__':
     with application.app_context():
         # Create the database tables 
         db.create_all()
-    application.run()
+    application.run(debug=True)
 
 
