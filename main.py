@@ -454,7 +454,7 @@ def get_report_csv():
 @application.route("/data_report" , methods=['GET'])
 @login_required
 def data_report():
-    return render_template('DataReport.html')
+    return render_template('DataReport.html', is_admin=is_admin())
 
 
 
