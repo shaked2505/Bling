@@ -261,8 +261,5 @@ values=(2010, 70.0, str(date(2023, 5, 10)) , 'Approved', 1003, 100, 302 )
 connector.execute_query(sql, values)
 values=(2011, 80.0, str(date(2023, 4, 10)) , 'Approved', 1003, 100, 301 )
 connector.execute_query(sql, values)
-values=(2011, 80.0, str(date(2023, 4, 10)) , 'Approved', 1003, 100, 301 )
-connector.execute_query(sql, values)
-
 connector.disconnect
 
