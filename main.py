@@ -333,8 +333,6 @@ def get_report_csv():
         headers=headers
     )
 
-
-
 @application.route("/data_report" , methods=['GET'])
 @login_required
 def data_report():
