@@ -99,9 +99,9 @@ def create_records():
     # ad_db.create_Trainee()
     # ad_db.create_Payment()
     # ad_db.create_SpecificTimeTraining()
-    ad_db.create_MembershipCancellationRequestForm()
+    #ad_db.create_MembershipCancellationRequestForm()
     #ad_db.create_TrainingRegistrationForm()
-    #ad_db.create_TrainingCancellationRequestForm()
+    ad_db.create_TrainingCancellationRequestForm()
     return render_template("test.html")
 
 @application.route("/schedule")
@@ -305,38 +305,6 @@ def get_data_to_report():
 
     return jsonify(data)
 
-@application.route("/get_report_csv" , methods=['POST'])
-def get_report_csv():
-    data = request.get_json()
-    startDate = data['startDate']
-    endDate = data['endDate']
-    incomeType = data['incomeType']
-
-    data = get_report_map(startDate, endDate, incomeType)
-
-    keys = data[0].keys()
-
-    # Create a CSV file in memory
-    csv_output = StringIO()
-    csv_writer = csv.DictWriter(csv_output, fieldnames=keys)
-    csv_writer.writeheader()
-    csv_writer.writerows(data)
-
-    headers = {
-        'Content-Disposition': 'attachment; filename=data.csv',
-        'Content-Type': 'text/csv'
-    }
-    print("-------------------")
-    return Response(
-        csv_output.getvalue(),
-        mimetype='text/csv',
-        headers=headers
-    )
-
-@application.route("/data_report" , methods=['GET'])
-@login_required
-def data_report():
-    return render_template('DataReport.html')
 @application.route("/get_report", methods=['POST'])
 @login_required
 def get_report():
@@ -436,6 +404,42 @@ def get_report_map(startDate, endDate, incomeType):
     ret_data.append(summary_line)
 
     return ret_data
+
+
+@application.route("/get_report_csv" , methods=['POST'])
+def get_report_csv():
+    data = request.get_json()
+    startDate = data['startDate']
+    endDate = data['endDate']
+    incomeType = data['incomeType']
+
+    data = get_report_map(startDate, endDate, incomeType)
+
+    keys = data[0].keys()
+
+    # Create a CSV file in memory
+    csv_output = StringIO()
+    csv_writer = csv.DictWriter(csv_output, fieldnames=keys)
+    csv_writer.writeheader()
+    csv_writer.writerows(data)
+
+    headers = {
+        'Content-Disposition': 'attachment; filename=data.csv',
+        'Content-Type': 'text/csv'
+    }
+    print("-------------------")
+    return Response(
+        csv_output.getvalue(),
+        mimetype='text/csv',
+        headers=headers
+    )
+
+
+@application.route("/data_report" , methods=['GET'])
+@login_required
+def data_report():
+    return render_template('DataReport.html')
+
 
 
 
