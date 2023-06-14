@@ -305,6 +305,123 @@ def get_data_to_report():
 
     return jsonify(data)
 
+@application.route("/get_report", methods=['POST'])
+@login_required
+def get_report():
+    data = request.get_json()
+    startDate = data['startDate']
+    endDate = data['endDate']
+    incomeType = data['incomeType']
+
+    ret_data = get_report_map(startDate, endDate, incomeType)
+
+    return jsonify(ret_data)
+
+
+def get_report_map(startDate, endDate, incomeType):
+    trainee_map = {}
+    trainees = Trainee.query.all()
+    for trainee in trainees:
+        trainee_map[trainee.traineeID] = trainee
+
+    merch_map = {}
+    merches = BrandedMerchandise.query.all()
+    for merch in merches:
+        merch_map[merch.productID] = merch
+
+    memb_map = {}
+    membs = MembershipPlan.query.all()
+    for memb in membs:
+        memb_map[memb.membershipID] = memb
+
+    ret_data = []
+    total_income = 0  # Initialize total income variable
+
+    if incomeType == "mem_plans":
+        payments = Payment.query.filter(
+            Payment.dateOfPayment <= endDate,
+            Payment.dateOfPayment >= startDate,
+            Payment.productID == None
+        ).all()
+        for payment in payments:
+            payment_data = {
+                'id': payment.paymentID,
+                'traineeID': trainee_map[payment.traineeID].traineeFullName,
+                'date_of_payment': payment.dateOfPayment.strftime('%d/%m/%Y'),
+                'amount': payment.amount,
+                'membershipID': memb_map[payment.membershipID].membershipPlanType
+            }
+            ret_data.append(payment_data)
+            total_income += payment.amount  # Add payment amount to total income
+        summary_line = {
+            'id': 'Summary',
+            'traineeID': 'Total Income:',
+            'date_of_payment': '',
+            'amount': total_income,
+            'membershipID': ''
+        }
+        ret_data.append(summary_line)
+    elif incomeType == "branded":
+        payments = Payment.query.filter(
+            Payment.dateOfPayment <= endDate,
+            Payment.dateOfPayment >= startDate,
+            Payment.productID != None
+        ).all()
+        for payment in payments:
+            payment_data = {
+                'id': payment.paymentID,
+                'traineeID': trainee_map[payment.traineeID].traineeFullName,
+                'date_of_payment': payment.dateOfPayment.strftime('%d/%m/%Y'),
+                'amount': payment.amount,
+                'productID': merch_map[payment.productID].productName,
+            }
+            ret_data.append(payment_data)
+            total_income += payment.amount  # Add payment amount to total income
+        summary_line = {
+            'id': 'Summary',
+            'traineeID': 'Total Income:',
+            'date_of_payment': '',
+            'amount': total_income,
+            'productID': '',
+        }
+        ret_data.append(summary_line)
+    else:
+        payments = Payment.query.filter(
+            Payment.dateOfPayment <= endDate,
+            Payment.dateOfPayment >= startDate
+        ).all()
+        for payment in payments:
+            if payment.productID:
+                product = merch_map[payment.productID].productName
+                memb = None
+            else:
+                product = None
+                memb = memb_map[payment.membershipID].membershipPlanType
+            payment_data = {
+                'id': payment.paymentID,
+                'traineeID': trainee_map[payment.traineeID].traineeFullName,
+                'date_of_payment': payment.dateOfPayment.strftime('%d/%m/%Y'),
+                'amount': payment.amount,
+                'productID': product,
+                'membershipID': memb
+            }
+            ret_data.append(payment_data)
+            total_income += payment.amount  # Add payment amount to total income
+        summary_line = {
+            'id': 'Summary',
+            'traineeID': 'Total Income:',
+            'date_of_payment': '',
+            'amount': total_income,
+            'productID': '',
+            'membershipID': ''
+        }
+        ret_data.append(summary_line)
+
+    # Add summary line to ret_data
+
+    return ret_data
+
+
 @application.route("/get_report_csv" , methods=['POST'])
 def get_report_csv():
     data = request.get_json()
@@ -334,11 +451,12 @@ def get_report_csv():
     )
 
 
-
 @application.route("/data_report" , methods=['GET'])
 @login_required
 def data_report():
     return render_template('DataReport.html')
+
+
 
 
 @application.route("/send_mail" , methods=['POST'])
