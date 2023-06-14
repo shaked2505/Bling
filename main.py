@@ -100,8 +100,8 @@ def create_records():
     # ad_db.create_Payment()
     # ad_db.create_SpecificTimeTraining()
     ad_db.create_MembershipCancellationRequestForm()
-    ad_db.create_TrainingRegistrationForm()
-    ad_db.create_TrainingCancellationRequestForm()
+    #ad_db.create_TrainingRegistrationForm()
+    #ad_db.create_TrainingCancellationRequestForm()
     return render_template("test.html")
 
 @application.route("/schedule")
