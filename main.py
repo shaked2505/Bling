@@ -353,6 +353,14 @@ def get_report_map(startDate, endDate, incomeType):
             }
             ret_data.append(payment_data)
             total_income += payment.amount  # Add payment amount to total income
+        summary_line = {
+            'id': 'Summary',
+            'traineeID': 'Total Income:',
+            'date_of_payment': '',
+            'amount': total_income,
+            'membershipID': ''
+        }
+        ret_data.append(summary_line)
     elif incomeType == "branded":
         payments = Payment.query.filter(
             Payment.dateOfPayment <= endDate,
@@ -369,6 +377,14 @@ def get_report_map(startDate, endDate, incomeType):
             }
             ret_data.append(payment_data)
             total_income += payment.amount  # Add payment amount to total income
+        summary_line = {
+            'id': 'Summary',
+            'traineeID': 'Total Income:',
+            'date_of_payment': '',
+            'amount': total_income,
+            'productID': '',
+        }
+        ret_data.append(summary_line)
     else:
         payments = Payment.query.filter(
             Payment.dateOfPayment <= endDate,
@@ -391,17 +407,17 @@ def get_report_map(startDate, endDate, incomeType):
             }
             ret_data.append(payment_data)
             total_income += payment.amount  # Add payment amount to total income
+        summary_line = {
+            'id': 'Summary',
+            'traineeID': 'Total Income:',
+            'date_of_payment': '',
+            'amount': total_income,
+            'productID': '',
+            'membershipID': ''
+        }
+        ret_data.append(summary_line)
 
     # Add summary line to ret_data
-    summary_line = {
-        'id': 'Summary',
-        'traineeID': 'Total Income:',
-        'date_of_payment': '',
-        'amount': total_income,
-        'productID': '',
-        'membershipID': ''
-    }
-    ret_data.append(summary_line)
 
     return ret_data
 
