@@ -65,7 +65,7 @@
                 {% else %}
                   {% if "{}/{}".format(schedule.trainingID, schedule.specificTimeTrainingDate) in registers.keys() %}
                   <a class="btn border-shadow update btn-danger p-2" onClick="updateDeleteModal('{{ schedule.trainingID }}', '{{ schedule.specificTimeTrainingDate }}')" role="button" aria-pressed="true" data-bs-toggle="modal" data-bs-target="#deleteModal">
-                    cancle
+                    cancel
                   </a>
                   {% else %}
                     {% if schedule_capacity_map["{}/{}".format(schedule.trainingID, schedule.specificTimeTrainingDate)]['capacity'] <=
