@@ -466,7 +466,7 @@ def send_email():
     for manager in managers:
         recipients.append(manager.email)
     trainee = current_user._get_current_object()
-    subject = "Trainee sum on 'Cancle Membership'"
+    subject = " A trainee as interested in 'Membership Cancellation'"
     body = f"The trainee {trainee.traineeID, trainee.traineeFullName} pushed on 'Cancle Membership'"
     sender = "blingboutiquestudio@gmail.com"
     password = "jiyhhmzailtggayu"
