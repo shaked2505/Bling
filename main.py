@@ -467,7 +467,7 @@ def send_email():
         recipients.append(manager.email)
     trainee = current_user._get_current_object()
     subject = "A trainee has intrested in membership cancellation"
-    body = f"The trainee {trainee.traineeID, trainee.traineeFullName} pushed on 'Cancle Membership'"
+    body = f"The trainee {trainee.traineeID, trainee.traineeFullName} clicked on Cancel Membership"
     sender = "blingboutiquestudio@gmail.com"
     password = "jiyhhmzailtggayu"
     msg = MIMEText(body)
