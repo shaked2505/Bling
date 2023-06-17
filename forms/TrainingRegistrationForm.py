@@ -2,6 +2,8 @@ import datetime
 from sqlalchemy import ForeignKeyConstraint
 from main_services.SpecificTimeTraining import SpecificTimeTraining
 from app import db
+current_time = datetime.datetime.now()
+timestamp = current_time.strftime("%Y-%m-%d %H:%M:%S")
 
 class TrainingRegistrationForm(db.Model):
     registrationID = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -17,14 +19,13 @@ class TrainingRegistrationForm(db.Model):
     approvalStatus = db.Column(db.String)
 
     # Create initializer/constructor
-    def __init__(self, traineeID,trainingID, approvalStatus, specificTimeTrainingDate, requestDate=datetime.date.today(),requestTime=datetime.datetime.now().time()):
+    def __init__(self, traineeID, trainingID, specificTimeTrainingDate, approvalStatus, requestDate=None, requestTime=None):
         self.traineeID = traineeID
         self.trainingID = trainingID
         self.specificTimeTrainingDate = specificTimeTrainingDate
-        self.requestDate = requestDate
         self.approvalStatus = approvalStatus
-        self.requestTime = requestTime
-
+        self.requestDate = requestDate or datetime.date.today()
+        self.requestTime = requestTime or datetime.datetime.now().time()
 
 
 # class TrainingRegistrationForm:

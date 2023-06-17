@@ -18,15 +18,16 @@ class TrainingCancellationRequestForm(db.Model):
     requestTime = db.Column(db.Time)
     approvalStatus = db.Column(db.String)
 
+
     # Create initializer/constructor
-    def __init__(self, traineeID, reason, approvalStatus, specificTimeTrainingDate, trainingID, requestDate=datetime.date.today(), requestTime=datetime.datetime.now().time()):
+    def __init__(self, traineeID, reason, approvalStatus, specificTimeTrainingDate, trainingID, requestDate=None, requestTime=None):
         self.traineeID = traineeID
         self.trainingID = trainingID
         self.specificTimeTrainingDate = specificTimeTrainingDate
         self.reason = reason
-        self.requestDate = requestDate
-        self.requestTime = requestTime
         self.approvalStatus = approvalStatus
+        self.requestDate = requestDate or datetime.date.today()
+        self.requestTime = requestTime or datetime.datetime.now().time()
 
 
 
