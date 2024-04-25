@@ -190,6 +190,44 @@ def training_registration():
     db.session.commit()
     return redirect(url_for('schedule'))
 
+@application.route("/create-specific-time-training" , methods=['POST'])
+@login_required
+def create_specific_time_training():
+    formDate = request.form['date']
+    formStartTime = request.form['startTime']
+    formEndTime = request.form['endTime']
+    standByTrainer = request.form['standByTrainer']
+    trainerID = request.form['trainerID']
+    trainingID = request.form['trainingID']
+    training_name = Training.query.get(trainingID).trainingType
+    obj = SpecificTimeTraining(str(formDate), trainingID, str(formStartTime), str(formEndTime), standByTrainer, trainerID)
+    db.session.add(obj)
+    db.session.commit()
+    # mail
+    trainees=Trainee.query.all()
+    recipients = []
+    # for trainee in trainees:
+        # recipients.append(trainee.email)
+    recipients.append("shirelyakim2@gmail.com")
+    subject = "A training is avaliable"
+    body = f"""Hi,
+We have new taining avaliable for you :)
+
+Type: {training_name}
+Date: {formDate}
+Time: {formStartTime} - {formEndTime}
+"""
+    sender = "blingboutiquestudio@gmail.com"
+    password = "jiyhhmzailtggayu"
+    msg = MIMEText(body)
+    msg['Subject'] = subject
+    msg['From'] = sender
+    msg['To'] = ', '.join(recipients)
+    with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp_server:
+       smtp_server.login(sender, password)
+       smtp_server.sendmail(sender, recipients, msg.as_string())
+    return redirect(url_for('schedule'))
+
 @application.route("/training-cancelation" , methods=['POST'])
 @login_required
 def training_cancelation():

@@ -16,7 +16,7 @@
       <li><a href="/home">Home</a></li>
       <li><a href="/logout" class="login-button">Logout</a></li>
       {% if is_admin %}
-      <li><a href="/data_report" class="login-button">Business Data</a></li>
+      <li><a title="Click for generating Business Data Reports " href="/data_report" class="login-button">Business Data</a></li>
       {% endif %}
       <img src="static/images/logo.png" alt="Logo"  class="logo">
     </ul>
@@ -26,6 +26,11 @@
   <div class="container">
     <div class="form-container-table">
       <h1 id="scheduleFont">Trainings Schedule</h1>
+      {% if is_admin %}
+      <a title="Add a new Training" class="btn border-shadow update btn-info p-2" role="button" aria-pressed="true" data-bs-toggle="modal" data-bs-target="#addModal">
+        Add
+      </a>
+      {% endif %}
         {% for date in schedule_map.keys() %}
         <table class="table">
           <thead class="schedule-date-color">
@@ -59,11 +64,7 @@
                   {{ schedule_capacity_map["{}/{}".format(schedule.trainingID, schedule.specificTimeTrainingDate)]['utilization'] }}
               </td>
               <td>
-                {% if is_admin %}
-                <a class="btn border-shadow update btn-info p-2" role="button" aria-pressed="true">
-                  Schedule
-                </a>
-                {% else %}
+                {% if not is_admin %}
                   {% if "{}/{}".format(schedule.trainingID, schedule.specificTimeTrainingDate) in registers.keys() %}
                   <a class="btn border-shadow update btn-danger p-2" onClick="updateDeleteModal('{{ schedule.trainingID }}', '{{ schedule.specificTimeTrainingDate }}')" role="button" aria-pressed="true" data-bs-toggle="modal" data-bs-target="#deleteModal">
                     cancel
@@ -75,7 +76,7 @@
                       is full
                     </a>
                     {% else %}
-                      <a class="btn border-shadow update btn-info p-2" onClick="updateCreateModal('{{ schedule.trainingID }}', '{{ schedule.specificTimeTrainingDate }}')" role="button" aria-pressed="true" data-bs-toggle="modal" data-bs-target="#createModal">
+                      <a title="Schedule this Training" class="btn border-shadow update btn-info p-2" onClick="updateCreateModal('{{ schedule.trainingID }}', '{{ schedule.specificTimeTrainingDate }}')" role="button" aria-pressed="true" data-bs-toggle="modal" data-bs-target="#createModal">
                         Schedule
                       </a>
                     {% endif %}
@@ -113,7 +114,60 @@
             </div>
           </div>
         </div>
-        
+        <div class="modal" id="addModal">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <!-- Modal Header -->
+              <div class="modal-header">
+                <h4 class="modal-title">Add New Schedule</h4>
+                <button type="button" onClick="clean_modal(this)" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+              <!-- Modal body -->
+              <div class="modal-body">
+                <form method="POST" action="/create-specific-time-training">
+                  <div class="mb-3">
+                    <label for="date" class="form-label">Date</label>
+                    <input type="date" class="form-control" name="date" id="date" required>
+                    <div class="mb-3">
+                      <label for="startTime" class="form-label">Start Time</label>
+                      <input type="time" class="form-control" name="startTime" id="startTime" required>
+                    </div>
+                    <div class="mb-3">
+                      <label for="endTime" class="form-label">End Time</label>
+                      <input type="time" class="form-control" name="endTime" id="endTime" required>
+          <div class="mb-3">
+            <label for="trainingID" class="form-label">trainingID</label>
+            <select class="form-control" name="trainingID" id="trainingID" required>
+              {% for trainingId in trainings.keys() %}
+              <option value={{ trainingId }}>{{ trainings[trainingId].trainingType }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="standByTrainer" class="form-label">Standby Trainer</label>
+            <select class="form-control" name="standByTrainer" id="standByTrainer" required>
+              {% for trainerId in trainers.keys() %}
+              <option value={{ trainerId }}>{{ trainers[trainerId].trainerFullName }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="trainerID" class="form-label">Trainer ID</label>
+            <select class="form-control" name="trainerID" id="trainerID" required>
+              {% for trainerId in trainers.keys() %}
+              <option value={{ trainerId }}>{{ trainers[trainerId].trainerFullName }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-success">Add</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>       
         <div class="modal" id="deleteModal">
           <div class="modal-dialog">
             <div class="modal-content">

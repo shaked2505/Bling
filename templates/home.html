@@ -31,7 +31,7 @@
         <li><a href="/home">Home</a></li>
         <li><a href="/logout" class="login-button">Logout</a></li>
         {% if is_admin %}
-        <li><a href="/data_report" class="login-button">Business Data</a></li>
+        <li><a title="Click for generating Business Data reports" href="/data_report" class="login-button">Business Data</a></li>
         {% endif %}
         <img src="static/images/logo.png" alt="Logo"  class="logo">
       </ul>
@@ -40,19 +40,19 @@
   <section class="hero">
     <h1 id="headline">Welcome to Bling Studio</h1>
     <div class="hero-content">
-      <a href="/schedule" class="schedule-button">Schedule</a>
+      {% if is_admin %}
+      <a title="Click for see and edit the Trainings Schedule" href="/schedule" class="schedule-button">Schedule</a>
+      {% else %}
+      <a title="Click for viewing the Trainings Schedule" href="/schedule" class="schedule-button">Schedule</a>
+      {% endif %}
     </div>
   </section>
 
   
   <section class="membership">
     {% if showCancelProcess %}
+      {% if not is_admin %}
       <p>If you are a studio member and wish to cancel your membership - please click here</p>
-      {% if is_admin %}
-      <a class="cancel-membership-button" role="button" aria-pressed="true">
-        Cancel Membership
-      </a>
-      {% else %}
       <a class="cancel-membership-button" role="button" aria-pressed="true" data-bs-toggle="modal" data-bs-target="#createModal">
         Cancel Membership
       </a>
