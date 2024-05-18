@@ -209,13 +209,15 @@ def create_specific_time_training():
     # for trainee in trainees:
         # recipients.append(trainee.email)
     recipients.append("shirelyakim2@gmail.com")
-    subject = "A training is avaliable"
+    subject = "A New Training Was Just Added!"
     body = f"""Hi,
-We have new taining avaliable for you :)
+We have a new training that is available for you :)
 
 Type: {training_name}
 Date: {formDate}
 Time: {formStartTime} - {formEndTime}
+
+See you at the studio!
 """
     sender = "blingboutiquestudio@gmail.com"
     password = "jiyhhmzailtggayu"
