@@ -208,7 +208,7 @@ def create_specific_time_training():
     recipients = []
     # for trainee in trainees:
         # recipients.append(trainee.email)
-    recipients.append("shirelyakim2@gmail.com")
+    recipients.append("shaked201098@gmail.com")
     subject = "A New Training Was Just Added!"
     body = f"""Hi,
 We have a new training that is available for you :)
@@ -506,8 +506,8 @@ def send_email():
     for manager in managers:
         recipients.append(manager.email)
     trainee = current_user._get_current_object()
-    subject = "A trainee has intrested in membership cancellation"
-    body = f"The trainee {trainee.traineeID, trainee.traineeFullName} clicked on Cancle Membership "
+    subject = "Membership Cancellation Request"
+    body = f"Hello Bar, please notice that the trainee {trainee.traineeID, trainee.traineeFullName} has clicked on Membership Cancellation screen. "
     sender = "blingboutiquestudio@gmail.com"
     password = "jiyhhmzailtggayu"
     msg = MIMEText(body)
