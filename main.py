@@ -507,8 +507,7 @@ def send_email():
         recipients.append(manager.email)
     trainee = current_user._get_current_object()
     subject = "Membership Cancellation Request"
-    body = f"Hello Bar, 
-    Please notice that the trainee {trainee.traineeID, trainee.traineeFullName} has clicked on the Membership Cancellation screen. "
+    body = f"Hello Bar, Please notice that the trainee {trainee.traineeID, trainee.traineeFullName} has clicked on the Membership Cancellation screen. "
     sender = "blingboutiquestudio@gmail.com"
     password = "jiyhhmzailtggayu"
     msg = MIMEText(body)
